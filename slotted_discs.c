@@ -12,6 +12,11 @@ void initsd(sd_t * p)
   p->g = 9.81;
   p->alpha = M_PI / 2.0;
 
+  // TODO
+  double Ia, Ib, Ja, Jb;
+  Ia = p->m*p->ra*p->ra/4.0;
+  Ib = p->m*p->ra*p->ra/4.0;
+
   for (i = 0; i < 15; ++i)
     p->T_da[i] = p->T_db[i] = 0.0;
 
