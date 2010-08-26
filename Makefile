@@ -1,7 +1,7 @@
 all : simulate
 
 simulate : simulate.o slotted_discs.o
-	gcc -Wall -g -lm -o simulate simulate.o slotted_discs.o
+	gcc -Wall -g -lm -lgsl -lcblas -latlas -o simulate simulate.o slotted_discs.o
 
 simulate.o : simulate.c 
 	gcc -Wall -g -c simulate.c

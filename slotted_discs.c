@@ -1,28 +1,35 @@
 #include "slotted_discs.h"
 
-void initsd(sd_t * p)
+void sdInit(sd_t * p)
 {
   int i;
+  p->T = gsl_odeiv_step_rk8pd;
+  p->s = gsl_odeiv_step_alloc(p->T, 6);
+  p->c = gsl_odeiv_control_y_new (1e-6, 0.0);
+  p->e = gsl_odeiv_evolve_alloc(6);
+  (p->sys).function = sdF;
+  (p->sys).jacobian = NULL;
+  (p->sys).dimension = 6;
+  (p->sys).params = p;
 
   // Setting model parameters and initial conditions
   p->t = p->x[0] = p->x[1] = p->x[3] = p->x[4] = p->x[5] = 0.0;
-  p->ra = p->rb = p->m = p->l = 1.0;
+  p->tf = 10.0;
+  p->h = 0.001;
+  p->ra = p->rb = p->ma = p->mb = p->l = 1.0;
   p->x[2] = asin(p->rb / (p->ra + p->l));
-  p->k = p->l / 2.0;
+  p->k = p->mb / (p->ma + p->mb) * p->l;
+  sdSetInertia(p);
+
   p->g = 9.81;
   p->alpha = M_PI / 2.0;
-
-  // TODO
-  double Ia, Ib, Ja, Jb;
-  Ia = p->m*p->ra*p->ra/4.0;
-  Ib = p->m*p->ra*p->ra/4.0;
 
   for (i = 0; i < 15; ++i)
     p->T_da[i] = p->T_db[i] = 0.0;
 
   p->T_da[15] = p->T_db[15] = 1.0;
 
-/* Evaluate constants */
+  /* Evaluate constants */
   p->z[129] = p->g*p->m;
   p->z[7] = cos(p->alpha);
   p->z[8] = sin(p->alpha);
@@ -414,3 +421,16 @@ int sdOutputs(sd_t * p)
   p->no_cb[2] = z[29] + z[4]*z[18] - z[17] - l*z[12] - z[23]*z[30];
   return GSL_SUCCESS;
 }
+
+void sdSetInertia(sd_t * p)
+{
+  double Ia, Ib, Ja, Jb;
+  Ia = p->m*p->ra*p->ra/4.0;
+  Ib = p->m*p->rb*p->rb/4.0;
+  Ja = Ia*2.0;
+  Jb = Ib*2.0;
+
+  p->Ix = Ia + Ib;
+  p->Iy = Ia + Jb + p->ma*p->k*p->k/4.0 + p->mb*pow(p->l - p->k, 2.0)/4.0;
+  p->Iz = Ib + Ja + p->ma*p->k*p->k/4.0 + p->mb*pow(p->l - p->k, 2.0)/4.0;
+} // sdSetInertia()
