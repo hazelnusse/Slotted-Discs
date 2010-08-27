@@ -5,18 +5,19 @@ frames a, b, db
 
 constants m, ra, rb, k, l, Ix, Iy, Iz, g, alpha
 
-variables q{5}', w1, w2
+variables q{5}'
+specified w{2}'
 motionvariables u'
-points ca, cb, mc
+points ca, cb
 
 inertia S, Ix, Iy, Iz, 0, 0, 0
 mass S=m
 
-zee_not = [w1, w2, u, u', q1', q2', q3']
+zee_not = [w1, w2, u, u', q1', q2', q3', q4', q5']
 simprot(n, a, 3, q1)
 simprot(a, b, 1, q2)
 simprot(b, s, 2, q3)
-simprot(s, db, 1, alpha)
+simprot(s, db, 3, alpha)
 
 p_no_ca> = q4*n1> + q5*n2>
 p_ao_ca> = ra*unitvec(a3> - dot(a3>, s2>)*s2>)
@@ -25,7 +26,9 @@ p_bo_cb> = rb*unitvec(a3> - dot(a3>, db2>)*db2>)
 p_ao_so> = -k*s3>
 
 w_s_n> = w1*s1> + w2*s2> + u*s3>
-kindiffs(n, s, BODY312, q1, q2, q3)
+q1' = (-w1*sin(q3) + u*cos(q3))/cos(q2)
+solve(dt(dot(p_ca_cb>, a3>)), q2')
+q3' = (w1*sin(q3) - u*cos(q3))*tan(q2) + w2
 w_a_n> = q3'*a3>
 
 autoz off
@@ -40,28 +43,23 @@ vson1> = cross(w_s_n>, p_ca_so>)
 vson2> = cross(w_s_n>, p_cb_so>)
 
 nh[1] = dot(a1>, vson1> - vson2>)
-nh[2] = dot(a2>, vson1> - vson2>)
+nh[2] = dot(a3>, vson1> - vson2>)
 
 solve(nh, [w1, w2])
 
-q1' := replace(rhs(q1'), w1=rhs(w1), w2=rhs(w2))
-q2' := replace(rhs(q2'), w1=rhs(w1), w2=rhs(w2))
-q3' := replace(rhs(q3'), w1=rhs(w1), w2=rhs(w2))
-
 w_s_n> := replace(w_s_n>, w1=rhs(w1), w2=rhs(w2))
-v_so_n> = replace(vson1>, w1=rhs(w1), w2=rhs(w2))
+v_so_n> = cross(w_s_n>, p_ca_so>)
 
 zee_not := [u']
 
 alf_s_n> = dt(w_s_n>, n)
 a_so_n> = dt(v_so_n>, n)
 
+pause
 fr_1 = dot(g*m*a3>, coef(v_so_n>, u))
 fr_star_1 = -dot(m*a_so_n>, coef(v_so_n>, u)) - &
             dot(dot(alf_s_n>, I_S_SO>>) + cross(w_s_n>, dot(I_S_SO>>, w_s_n>)),  coef(w_s_n>, u))
-
 solve(rhs(fr_1) + rhs(fr_star_1), u')
-
 % Extraneous outputs
 ke = m*mag(v_so_n>)/2
 pe = -m*g*dot(p_ca_so>, a3>)
