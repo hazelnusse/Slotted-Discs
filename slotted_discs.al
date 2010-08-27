@@ -27,8 +27,8 @@ p_ao_so> = -k*s3>
 
 w_s_n> = w1*s1> + w2*s2> + u*s3>
 q1' = (-w1*sin(q3) + u*cos(q3))/cos(q2)
-solve(dt(dot(p_ca_cb>, a3>)), q2')
-q3' = (w1*sin(q3) - u*cos(q3))*tan(q2) + w2
+q2' = w1*cos(q3) + u*sin(q3)
+solve(dt(dot(p_ca_cb>, a3>)), q3')
 w_a_n> = q3'*a3>
 
 autoz off
@@ -43,7 +43,7 @@ vson1> = cross(w_s_n>, p_ca_so>)
 vson2> = cross(w_s_n>, p_cb_so>)
 
 nh[1] = dot(a1>, vson1> - vson2>)
-nh[2] = dot(a3>, vson1> - vson2>)
+nh[2] = dot(a2>, vson1> - vson2>)
 
 solve(nh, [w1, w2])
 
