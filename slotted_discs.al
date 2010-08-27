@@ -48,20 +48,20 @@ nh[2] = dot(a3>, vson1> - vson2>)
 solve(nh, [w1, w2])
 
 w_s_n> := replace(w_s_n>, w1=rhs(w1), w2=rhs(w2))
-v_so_n> = cross(w_s_n>, p_ca_so>)
+v_so_n> = cross(w_s_n>, express(p_ca_so>, s))
 
-zee_not := [u']
+zee_not := [u', w1', w2']
 
 alf_s_n> = dt(w_s_n>, n)
 a_so_n> = dt(v_so_n>, n)
 
-pause
 fr_1 = dot(g*m*a3>, coef(v_so_n>, u))
 fr_star_1 = -dot(m*a_so_n>, coef(v_so_n>, u)) - &
             dot(dot(alf_s_n>, I_S_SO>>) + cross(w_s_n>, dot(I_S_SO>>, w_s_n>)),  coef(w_s_n>, u))
 solve(rhs(fr_1) + rhs(fr_star_1), u')
+
 % Extraneous outputs
-ke = m*mag(v_so_n>)/2
+ke = m*mag(v_so_n>)/2.0 + dot(w_s_n>, dot(I_S_SO>>, w_s_n>))/2.0
 pe = -m*g*dot(p_ca_so>, a3>)
 T_da = [N_S[1,1], N_S[2,1], N_S[3,1], 0, &
         N_S[1,2], N_S[2,2], N_S[3,2], 0, &
@@ -87,6 +87,8 @@ input Ix = 0.0 kg*m^2, Iy = 0.0 kg*m^2, Iz = 0.0 kg*m^2
 input q1 = 0.0 rad, q2 = 0.0 rad, q3 = 0.0, q4 = 0.0 m, q5 = 0.0 m %asin(rb/(ra+l))
 input u = 0.0 rad/s
 
-output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s, q4' m/s, q5' m/s, u rad/s, ke kg*m^2/s/s, pe kg*m^2/s/s, A, no_cb
+output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
+output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, u rad/s, ke kg*m^2/s/s
+output pe kg*m^2/s/s, A, no_cb, T_da, T_db
 
 code dynamics() slotted_discs_al.c
