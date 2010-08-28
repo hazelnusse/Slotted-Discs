@@ -75,6 +75,9 @@ T_db = [N_db[1,1], N_db[2,1], N_db[3,1], 0, &
 
 no_cb = [dot(p_no_cb>, n1>), dot(p_no_cb>, n2>), dot(p_no_cb>, a3>)]
 
+hc_f = no_cb[3]
+hc_df = d(hc_f, q3)
+
 A[1] = d(rhs(q2'), q2)
 A[2] = d(rhs(q2'), u)
 A[3] = d(rhs(u'), q2)
@@ -90,5 +93,6 @@ input u = 0.0 rad/s
 output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
 output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, u rad/s, ke kg*m^2/s/s
 output pe kg*m^2/s/s, A, no_cb, T_da, T_db
+output hc_f, hc_df
 
 code dynamics() slotted_discs_al.c
