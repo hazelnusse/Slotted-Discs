@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-os.system('./simulate')
+w3 = "1.675"
+os.system('./simulate {0}'.format(w3))
 
 record_dt = np.dtype([('t', np.float64),
                       ('yaw', np.float64),
@@ -28,32 +29,54 @@ record_dt = np.dtype([('t', np.float64),
 data = np.fromfile('./simulate.dat', dtype=record_dt)
 
 plt.figure()
-plt.plot(data[:]['x'], data[:]['y'], 'r-')
-plt.plot(data[:]['cbx'], data[:]['cby'], 'g-')
+plt.plot(data[:]['x'], data[:]['y'], 'r-', label='Disc A')
+plt.plot(data[:]['cbx'], data[:]['cby'], 'g-', label='Disc B')
 plt.plot(data[0]['x'], data[0]['y'], 'ro')
 plt.plot(data[0]['cbx'], data[0]['cby'], 'go')
 plt.plot(data[-1]['x'], data[-1]['y'], 'rx')
 plt.plot(data[-1]['cbx'], data[-1]['cby'], 'gx')
+plt.xlabel('x [m]')
+plt.ylabel('y [m]')
+plt.title('Position of contact points')
+plt.legend()
 
 plt.figure()
-plt.plot(data[:]['t'], -data[:]['daoz'], 'r-')
-plt.plot(data[:]['t'], -data[:]['dboz'], 'g-')
+plt.plot(data[:]['t'], -data[:]['daoz'], 'r-', label='Disc A')
+plt.plot(data[:]['t'], -data[:]['dboz'], 'g-', label='Disc B')
+plt.xlabel('t [s]')
+plt.ylabel('z [m]')
+plt.title('Height of disc centers')
+plt.legend()
 
 plt.figure()
-plt.plot(data[:]['t'], data[:]['ke'], 'r-')
-plt.plot(data[:]['t'], data[:]['pe'], 'g-')
-plt.plot(data[:]['t'], data[:]['te'], 'y-')
+plt.plot(data[:]['t'], data[:]['ke'], 'r-', label='Kinetic')
+plt.plot(data[:]['t'], data[:]['pe'], 'g-', label='Potential')
+plt.plot(data[:]['t'], data[:]['te'], 'b-', label='Total')
+plt.xlabel('t [s]')
+plt.ylabel(r'Energy [$kg*m/s^2$]')
+plt.title('Energy')
+plt.legend()
 
 plt.figure()
 plt.plot(data[:]['t'], data[:]['w3'], 'r-')
+plt.xlabel('t [s]')
+plt.ylabel(r'Angular rate [$rad/s$]')
+plt.title('Spin rate about line connecting mass centers')
 
 plt.figure()
-plt.plot(data[:]['t'], data[:]['cbz'], 'r-')
-plt.plot(data[:]['t'], data[:]['te'] - data[0]['te'], 'g-')
+plt.plot(data[:]['t'], -data[:]['cbz'], 'r-', label='Disc B contact point height')
+plt.plot(data[:]['t'], data[:]['te'] - data[0]['te'], 'g-', label='Total' +
+         'energy deviation')
+plt.xlabel('t [s]')
+plt.title('Conserved quantities plot')
 
 plt.figure()
-plt.plot(data[:]['t'], data[:]['yaw'], 'r-')
-plt.plot(data[:]['t'], data[:]['lean'], 'g-')
-plt.plot(data[:]['t'], data[:]['spin'], 'b-')
+plt.plot(data[:]['t'], data[:]['yaw'], 'r-', label='Yaw')
+plt.plot(data[:]['t'], data[:]['lean'], 'g-', label='Lean')
+plt.plot(data[:]['t'], data[:]['spin'], 'b-', label='Spin')
+plt.xlabel('t [s]')
+plt.ylabel('Angular displacement [rad]')
+plt.title('Euler 3-1-2 Angles')
+plt.legend()
 
 plt.show()
