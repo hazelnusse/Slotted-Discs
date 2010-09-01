@@ -1,30 +1,29 @@
 #include <stdio.h>
 #include <gsl/gsl_odeiv.h>
+#include <gsl/gsl_roots.h>
 #include "slotted_discs.h"
 
 int main(int argc, char ** argv)
 {
-  sd_t * discs = (sd_t *) malloc(sizeof(sd_t));
-  sdInit(discs);
-  discs->x[5] = 1.0;
-  sdF(0.0, discs->x, discs->f, discs);
-  sdOutputs(discs);
-  int i, fps = 10;
+  sd_t * p = (sd_t *) malloc(sizeof(sd_t));
+  int i, fps = 100;
   double tj;
+  FILE * fp = fopen("./simulate.dat", "wb");
+  
 
-  printf("%5s%12s%12s%12s%12s%12s%12s%12s%12s%12s%12s%12s%12s\n",
-         "t", "yaw", "roll", "spin", "x", "y", "u", "nocbx",
-         "nocby", "nocbz", "ke", "pe", "te");
-  sdPrint(discs);
-  for (i = 1; i < fps*discs->tf + 1; ++i) {
+  sdInit(p);
+  sdWriteRecord(p, fp);
+  p->tf = 20.0;
+  for (i = 1; i < fps*p->tf + 1; ++i) {
     tj = ((double) i) / ((double) fps);
-    while (discs->t < tj)
-      gsl_odeiv_evolve_apply(discs->e, discs->c, discs->s,
-          &(discs->sys), &(discs->t), tj, &(discs->h), discs->x);
-    sdOutputs(discs);
-    sdPrint(discs);
+    while (p->t < tj)
+      gsl_odeiv_evolve_apply(p->e, p->c, p->s,
+          &(p->sys), &(p->t), tj, &(p->h), p->x);
+    sdOutputs(p);
+    sdWriteRecord(p, fp);
   } // for i
 
-  sdFree(discs);
+  sdFree(p);
+  fclose(fp);
   return 0;
 } // main
