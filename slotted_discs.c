@@ -50,7 +50,6 @@ void sdFree(sd_t * discs)
   gsl_odeiv_evolve_free(discs->e);
   gsl_odeiv_control_free(discs->c);
   gsl_odeiv_step_free(discs->s);
-  gsl_root_fdfsolver_free(discs->fdf_s);
   free(discs);
 } // sdFree()
 
@@ -123,7 +122,8 @@ void sdInitParameters(sd_t * p)
 {
   p->ra = p->rb = 0.1;
   p->ma = p->mb = 2.0;
-  p->l = .1;
+  // When l = sqrt(2.0)*r, mass center height is constant
+  p->l = sqrt(2.0) * p->ra; //.1;
   p->g = 9.81;
   p->alpha = M_PI / 2.0;
 } // sdInitParameters()
