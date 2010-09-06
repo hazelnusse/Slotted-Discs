@@ -22,7 +22,7 @@ class SlottedDiscs {
     double ma, mb, ra, rb, ke, pe;
     double Ia, Ib, Ja, Jb, g, alpha;
     double m, l, k, Ixx, Iyy, Izz, Iyz;
-    double z[323];
+    double z[262];
     double T_da[16], T_db[16], T_ca[16], T_cb[16], T_so[16];
     double con[3], A[36], dfdt[6], p[3], H[3];
 

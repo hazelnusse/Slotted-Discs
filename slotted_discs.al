@@ -40,7 +40,7 @@ p_ca_dao> = express(ra*unitvec(a3> - dot(a3>, da3>)*da3>), s)
 % Disc A center to Disc B center
 p_dao_dbo> = -l*s1>
 % Disc A center to System Mass center
-p_dao_so> = k*s1>
+p_dao_so> = -k*s1>
 % Disc B center to Disc B contact 
 p_dbo_cb> = express(-rb*unitvec(a3> - dot(a3>, db3>)*db3>), s)
 % Inertial origin to system mass center
@@ -70,7 +70,7 @@ zee_not := [w1']
 q4' = dot(v_so_n>, n1>)
 q5' = dot(v_so_n>, n2>)
 
-alf_s_n> = dt(w_s_n>, s) + cross(w_s_n>, w_s_n>)
+alf_s_n> = dt(w_s_n>, s)
 a_so_n> = dt(v_so_n>, s) + cross(w_s_n>, v_so_n>)
 
 fr_1 = dot(-g*m*a3>, coef(v_so_n>, w1))

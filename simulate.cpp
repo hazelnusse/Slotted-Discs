@@ -4,8 +4,6 @@
 int main(int argc, char ** argv)
 {
   SlottedDiscs * discs = new SlottedDiscs();
-  discs->eoms();
-  discs->computeOutputs();
   cout << "State" << endl;
   discs->printState();
   cout << "Constraints" << endl;

@@ -3,8 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-w3 = "1.675"
+#w3 = "1.0"
 os.system('./simulate {0}'.format(w3))
+os.system('./simulate')
 
 record_dt = np.dtype([('t', np.float64),
                       ('yaw', np.float64),
@@ -27,6 +28,11 @@ record_dt = np.dtype([('t', np.float64),
                       ('te', np.float64)])
 
 data = np.fromfile('./simulate.dat', dtype=record_dt)
+print data[0]['ke']
+print data[0]['pe']
+print data[0]['ke'] + data[0]['pe']
+stop
+
 
 plt.figure()
 plt.plot(data[:]['x'], data[:]['y'], 'r-', label='Disc A')

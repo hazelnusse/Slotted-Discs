@@ -9,12 +9,15 @@ int main(int argc, char ** argv)
   double tj, w3;
   FILE * fp = fopen("./simulate.dat", "wb");
   
-  if (argc == 2)
+  if (argc == 2) {
     w3 = atof(*(argv + 1));
+    printf("w3 set to %f\n", w3);
+  }
+
 
 
   sdInit(p);
-  p->x[5] = w3;
+  //p->x[5] = w3;
   sdF(p->t, p->x, p->f, p);
   sdOutputs(p);
   sdWriteRecord(p, fp);

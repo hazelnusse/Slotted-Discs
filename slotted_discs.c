@@ -148,7 +148,7 @@ void sdInitState(sd_t * p)
   p->x[2] = M_PI / 2.0; // Spin
   p->x[3] = 0.0; // x of contact point of disc A
   p->x[4] = 0.0; // y of contact point of disc A
-  p->x[5] = 2.0; // body fixed angular velocity along connecting axis
+  p->x[5] = 1.0; // body fixed angular velocity along connecting axis
 } // sdInitState()
 
 int sdF(double t, const double *x, double *f, void *params)

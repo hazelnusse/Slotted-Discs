@@ -1,25 +1,25 @@
-bodies a, b
+bodies da, db
 frames s
 constants ma, ra, mb, rb, l, alpha, Ia, Ja, Ib, Jb
 
-simprot(a, b, 1, alpha)
+simprot(da, db, 1, alpha)
+simprot(da, s, 1, 0)
 
-inertia a, Ia, Ia, Ja, 0, 0, 0
-inertia b, Ib, Ib, Jb, 0, 0, 0
-mass a=ma
-mass b=mb
+inertia da, Ia, Ia, Ja, 0, 0, 0
+inertia db, Ib, Ib, Jb, 0, 0, 0
+mass da=ma
+mass db=mb
 
-p_ao_bo> = -l*a1>
-p_ao_so> = cm(ao)
+p_dao_dbo> = -l*s1>
+p_dao_so> = cm(dao, da, db)
+k = -dot(p_dao_so>, s1>)
 
-k = dot(p_ao_so>, a1>)
+I_S_SO>> = I_DA_SO>> + I_DB_SO>>
 
-I_S_SO>> = I_A_SO>> + I_B_SO>>
-
-Ixx = dot(a1>, dot(I_S_SO>>, a1>))
-Iyy = dot(a2>, dot(I_S_SO>>, a2>))
-Izz = dot(a3>, dot(I_S_SO>>, a3>))
-Iyz = dot(a2>, dot(I_S_SO>>, a3>))
-Izy = dot(a3>, dot(I_S_SO>>, a2>))
+Ixx = dot(s1>, dot(I_S_SO>>, s1>))
+Iyy = dot(s2>, dot(I_S_SO>>, s2>))
+Izz = dot(s3>, dot(I_S_SO>>, s3>))
+Iyz = dot(s2>, dot(I_S_SO>>, s3>))
+Izy = dot(s3>, dot(I_S_SO>>, s2>))
 output Ixx, Iyy, Izz, Iyz, k
 code algebraic() inertias_al.c
