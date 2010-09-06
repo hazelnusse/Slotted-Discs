@@ -1,4 +1,7 @@
 *.swp
 *.o
-slotted_discs_al.*
+sim
 simulate
+simulate.dat
+inertias_al*
+slotted_discs_al*
