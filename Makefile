@@ -28,4 +28,4 @@ writepng.o : writepng.c writepng.h
 	gcc -Wall -g -c writepng.c
 
 clean : 
-	rm -rf *.o simulate render
+	rm -rf *.o simulate render sim
