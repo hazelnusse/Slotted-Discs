@@ -5,3 +5,9 @@ simulate
 simulate.dat
 inertias_al*
 slotted_discs_al*
+heads.jpg
+tails.png
+*.dat
+frames/
+movies/
+makemovie
