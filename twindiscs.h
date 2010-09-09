@@ -3,6 +3,8 @@
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_odeiv.h>
 
+#define Z_MAX 171
+
 using namespace std;
 
 extern "C" {
@@ -17,14 +19,15 @@ class SlottedDiscs {
   private:
 
   public:
-    double t, tf, h, f[6];
-    double q1, q2, q3, q4, q5, w1, w2, w3, q1p, q2p, q3p, q4p, q5p, w3p;
     double ma, mb, ra, rb, l;
-    double ke, pe, te;
     double Ia, Ib, Ja, Jb, g, alpha;
     // double m, l, k, Ixx, Iyy, Izz, Iyz;
-    double z[171];
-    double no_cb[3];
+    
+    double t, tf, h;
+    double q1, q2, q3, q4, q5, w1, w2, w3, q1p, q2p, q3p, q4p, q5p, w3p;
+    double ke, pe, te;
+    double z[Z_MAX];
+    double no_cb[2], con[3];
 
     // Numerical integrator variables
     const gsl_odeiv_step_type * T;
@@ -44,9 +47,10 @@ class SlottedDiscs {
     friend ostream &operator<<(ostream &file, const SlottedDiscs *discs);
 
     // Mutators
-    void setState(double state[6]);
+    void setState(const double state[6]);
     void setParameters(DiscParams * p);
+    void evalConstants(void);
+    void eoms(void);
     void computeOutputs(void);
-    int eoms(void);
     friend int eomwrapper(double t, const double x[6], double f[6], void * params);
 }; 

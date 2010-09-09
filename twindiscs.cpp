@@ -4,34 +4,36 @@ int eomwrapper(double t, const double x[6], double f[6], void * params)
 {
   SlottedDiscs * p = (SlottedDiscs *) params;
   // Assign the states of the SlottedDiscs object
-  p->q1 = x[0];
-  p->q2 = x[1];
-  p->q3 = x[2];
-  p->q4 = x[3];
-  p->q5 = x[4];
-  p->w3 = x[5];
+  p->setState(x);
   // Evaluate the RHS of the ODE's representing the equations of motion
-  int status = p->eoms();
+  p->eoms();
   // Assign the right hand sides of the ODE's to the array passed
-  for (int i = 0; i < 6; ++i)
-    f[i] = p->f[i];
-  // Return the status (should be GSL_SUCCESS)
-  return status;
+  f[0] = p->q1p;
+  f[1] = p->q2p;
+  f[2] = p->q3p;
+  f[3] = p->q4p;
+  f[4] = p->q5p;
+  f[5] = p->w3p;
+  // Return the status
+  return GSL_SUCCESS;
 }
 
 ostream &operator<<(ostream &file, const SlottedDiscs * discs)
 {
-  file.write((char *) &(discs->t), sizeof discs->t); // Write the time
-  file.write((char *) &discs->q1, sizeof discs->q1); // Write the state
-  file.write((char *) &discs->q2, sizeof discs->q2); // Write the state
-  file.write((char *) &discs->q3, sizeof discs->q3); // Write the state
-  file.write((char *) &discs->q4, sizeof discs->q4); // Write the state
-  file.write((char *) &discs->q5, sizeof discs->q5); // Write the state
-  file.write((char *) &discs->w3, sizeof discs->w3); // Write the state
-  file.write((char *) &(discs->no_cb), sizeof discs->no_cb); // Write the ke
-  file.write((char *) &(discs->ke), sizeof discs->ke); // Write the ke
-  file.write((char *) &(discs->pe), sizeof discs->pe); // Write the pe
-  file.write((char *) &(discs->te), sizeof discs->te); // Write the pe
+  file.write((char *) &(discs->t), sizeof discs->t);
+  file.write((char *) &discs->q1, sizeof discs->q1);
+  file.write((char *) &discs->q2, sizeof discs->q2);
+  file.write((char *) &discs->q3, sizeof discs->q3);
+  file.write((char *) &discs->q4, sizeof discs->q4);
+  file.write((char *) &discs->q5, sizeof discs->q5);
+  file.write((char *) &discs->w1, sizeof discs->w1);
+  file.write((char *) &discs->w2, sizeof discs->w2);
+  file.write((char *) &discs->w3, sizeof discs->w3);
+  file.write((char *) &(discs->con), sizeof discs->con);
+  file.write((char *) &(discs->no_cb), sizeof discs->no_cb);
+  file.write((char *) &(discs->ke), sizeof discs->ke);
+  file.write((char *) &(discs->pe), sizeof discs->pe);
+  file.write((char *) &(discs->te), sizeof discs->te);
   return file;
 } // operator <<
 
@@ -66,17 +68,13 @@ SlottedDiscs::SlottedDiscs()
   sys.dimension = 6;
   sys.params = this;
 
-  // Constants
-  Ib = 0.25*mb*pow(rb,2);
-  z[7] = cos(alpha);
-  Ia = 0.25*ma*pow(ra,2);
-  Ja = 0.5*ma*pow(ra,2);
-  Jb = 0.5*mb*pow(rb,2);
-  z[8] = sin(alpha);
-  z[157] = -Ia - Ib;
+  for (int i = 0; i < Z_MAX; ++i)
+    z[i] = 0.0;
 
-  this->eoms();
-  this->computeOutputs();
+  // Constants
+  evalConstants();
+  eoms();
+  computeOutputs();
 } // constructor
 
 SlottedDiscs::~SlottedDiscs()
@@ -111,10 +109,10 @@ void SlottedDiscs::printConstraints(void) const
 {
   cout.setf(ios::scientific, ios::floatfield);
   cout.setf(ios::adjustfield, ios::right);
-  for (int i = 0; i < 1; ++i) {
-    cout.precision(9);
+  cout.precision(9);
+  for (int i = 0; i < 3; ++i) {
     cout.width(18);
-    cout << no_cb[2];
+    cout << con[i];
   }
   cout << endl;
 } // printConstraints()
@@ -144,13 +142,22 @@ void SlottedDiscs::printParameters() const
   cout << "ma = " << ma << endl << "mb = " << mb << endl;
   cout << "Ia = " << Ia << endl << "Ib = " << Ib << endl;
   cout << "Ja = " << Ja << endl << "Jb = " << Jb << endl;
-  cout << "alpha = " << alpha << endl << "l = " << l << endl << g << endl;
-  //cout << "k = " << k << endl;
-  //cout << "Ixx = " << Ixx << endl << "Iyy = " << Iyy << endl;
-  //cout << "Izz = " << Izz << endl << "Iyz = " << Iyz << endl;
+  cout << "alpha = " << alpha << endl << "l = " << l << endl;
+  cout << "g = " << g << endl;
 } // printParameters()
 
-int SlottedDiscs::eoms(void)
+void SlottedDiscs::evalConstants(void)
+{
+  Ib = 0.25*mb*pow(rb,2);
+  z[7] = cos(alpha);
+  Ia = 0.25*ma*pow(ra,2);
+  Ja = 0.5*ma*pow(ra,2);
+  Jb = 0.5*mb*pow(rb,2);
+  z[8] = sin(alpha);
+  z[157] = -Ia - Ib;
+} //evalConstants()
+
+void SlottedDiscs::eoms(void)
 {
   z[5] = cos(q3);
   z[6] = sin(q3);
@@ -326,14 +333,6 @@ int SlottedDiscs::eoms(void)
   2)+pow(z[79],2)+pow(z[80],2));
   z[160] = z[159]/z[158];
   w3p = z[160];
-
-  f[0] = q1p;
-  f[1] = q2p;
-  f[2] = q3p;
-  f[3] = q4p;
-  f[4] = q5p;
-  f[5] = w3p;
-  return GSL_SUCCESS;
 } // eoms()
 
 void SlottedDiscs::computeOutputs(void)
@@ -347,25 +346,31 @@ void SlottedDiscs::computeOutputs(void)
   z[12]*(l+z[19])));
   te = ke + pe;
   z[161] = z[1]*z[5] - z[2]*z[9];
-  z[162] = z[2]*z[3];
-  z[163] = z[1]*z[6] + z[2]*z[10];
-  z[164] = z[1]*z[9] + z[2]*z[5];
-  z[165] = z[1]*z[3];
+  z[162] = z[1]*z[9] + z[2]*z[5];
+  z[163] = z[2]*z[3];
+  z[164] = z[1]*z[3];
+  z[165] = z[1]*z[6] + z[2]*z[10];
   z[166] = z[2]*z[6] - z[1]*z[10];
-  z[167] = z[1]*z[20] - z[2]*z[22];
-  z[168] = -z[1]*z[21] - z[2]*z[23];
-  z[169] = z[1]*z[22] + z[2]*z[20];
-  z[170] = z[1]*z[23] - z[2]*z[21];
+  z[167] = z[7]*z[161] - z[8]*z[163];
+  z[168] = z[7]*z[162] + z[8]*z[164];
+  z[169] = -z[7]*z[163] - z[8]*z[161];
+  z[170] = z[7]*z[164] - z[8]*z[162];
 
-  no_cb[0] = q4 + z[17]*z[161] + z[30]*z[167] + z[32]*z[163] - z[18]*z[162] - 
-  z[31]*z[168] - z[163]*(l+z[19]);
-  no_cb[1] = q5 + z[17]*z[164] + z[18]*z[165] + z[30]*z[169] + z[32]*z[166] - 
+  con[0] = w3*z[20]*z[31] + z[6]*(w1*z[18]-w2*z[17]) + z[5]*(w2*z[32]-w3*
+  z[18]-w2*(l+z[19])) + z[6]*(z[8]*w1*z[30]-z[7]*w1*z[31]-z[7]*w2*z[30]-z[8]*
+  w2*z[31]) - w3*z[21]*z[30];
+  con[1] = w3*z[24]*z[31] + w3*z[25]*z[30] + z[12]*(w1*z[18]-w2*z[17]) + 
+  z[12]*(z[8]*w1*z[30]-z[7]*w1*z[31]-z[7]*w2*z[30]-z[8]*w2*z[31]) - z[4]*(w1*
+  z[32]-w3*z[17]-w1*(l+z[19])) - z[11]*(w2*z[32]-w3*z[18]-w2*(l+z[19]));
+  con[2] = z[4]*z[18] + z[12]*z[32] + z[24]*z[30] - z[11]*z[17] - z[25]*z[31] - 
+  z[12]*(l+z[19]);
+  no_cb[0] = q4 + z[17]*z[161] + z[30]*z[167] + z[32]*z[165] - z[18]*z[163] - 
+  z[31]*z[169] - z[165]*(l+z[19]);
+  no_cb[1] = q5 + z[17]*z[162] + z[18]*z[164] + z[30]*z[168] + z[32]*z[166] - 
   z[31]*z[170] - z[166]*(l+z[19]);
-  no_cb[2] = z[4]*z[18] + z[12]*z[32] + z[24]*z[30] - z[11]*z[17] - z[25]*
-  z[31] - z[12]*(l+z[19]);
 } // computeOutputs()
 
-void SlottedDiscs::setState(double state[6])
+void SlottedDiscs::setState(const double state[6])
 {
   q1 = state[0];
   q2 = state[1];

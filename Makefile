@@ -1,4 +1,4 @@
-all : simulate render sim
+all : sim
 
 simulate : simulate.o slotted_discs.o
 	gcc -Wall -g -lm -lgsl -lcblas -latlas -o simulate simulate.o slotted_discs.o
