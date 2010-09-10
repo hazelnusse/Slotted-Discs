@@ -42,6 +42,8 @@ q2' = zee(rhs(w1)*cos(q3) + w3*sin(q3))
 solve(dt(dot(p_ca_cb>, a3>)), q3')
 q3' := zee(replace(q3', q2'=rhs(q2')))
 
+hc = explicit(dot(p_ca_cb>, a3>))
+
 autoz off
 vcon1> = q4'*n1> + q5'*n2> + cross(q1'*a3> + q2'*a1>, p_ca_dao>)
 vcon2> = cross(q1'*a3> + q2'*a1> + q3'*b2>, p_ca_dao>)
