@@ -12,16 +12,16 @@ extern "C" {
 }
 
 typedef struct {
-  double ma, mb, ra, rb, l, g, alpha;
+  double m, ra, rb, l, k, g, alpha, Ixx, Iyy, Izz, Ixy;
 } DiscParams;
 
 class SlottedDiscs {
   private:
 
   public:
-    double ma, mb, ra, rb, l;
+    double ra, rb, l;
     double Ia, Ib, Ja, Jb, g, alpha;
-    // double m, l, k, Ixx, Iyy, Izz, Iyz;
+    double m, k, Ixx, Iyy, Izz, Ixy;
     
     double t, tf, h;
     double q1, q2, q3, q4, q5, w1, w2, w3, q1p, q2p, q3p, q4p, q5p, w3p;
