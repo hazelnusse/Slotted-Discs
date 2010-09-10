@@ -10,4 +10,9 @@ tails.png
 *.dat
 frames/
 movies/
+plots/
 makemovie
+*.pdf
+*.bz2
+simulation_settings.txt
+*.pyc
