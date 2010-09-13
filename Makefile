@@ -15,8 +15,8 @@ render : render.o twindiscs.o writepng.o
 render.o : render.cpp writepng.h slotted_discs.h
 	g++ -Wall -g -c render.cpp
 
-writepng.o : writepng.cpp writepng.h
-	g++ -Wall -g -c writepng.cpp
+writepng.o : writepng.c writepng.h
+	gcc -Wall -g -c writepng.c
 
 clean : 
 	rm -rf *.o simulate render sim
