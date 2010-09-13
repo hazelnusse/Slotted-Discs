@@ -1,7 +1,4 @@
-all : sim
-
-simulate : simulate.o slotted_discs.o
-	gcc -Wall -g -lm -lgsl -lcblas -latlas -o simulate simulate.o slotted_discs.o
+all : sim render
 
 sim : sim.o twindiscs.o
 	g++ -Wall -g -lm -lgsl -lcblas -latlas -o sim sim.o twindiscs.o
@@ -12,20 +9,14 @@ sim.o : simulate.cpp twindiscs.h
 twindiscs.o : twindiscs.cpp twindiscs.h
 	g++ -Wall -g -c twindiscs.cpp
 
-simulate.o : simulate.c
-	gcc -Wall -g -c simulate.c
+render : render.o twindiscs.o writepng.o
+	g++ -Wall -g -lm -lgsl -lcblas -latlas -lGLU -lOSMesa -lpng -o render render.o twindiscs.o writepng.o
 
-slotted_discs.o : slotted_discs.c slotted_discs.h
-	gcc -Wall -g -c slotted_discs.c
+render.o : render.cpp writepng.h slotted_discs.h
+	g++ -Wall -g -c render.cpp
 
-render : render.o slotted_discs.o writepng.o
-	gcc -Wall -g -lm -lgsl -lcblas -latlas -lGLU -lOSMesa -lpng -o render render.o slotted_discs.o writepng.o
-
-render.o : render.c writepng.h slotted_discs.h
-	gcc -Wall -g -c render.c
-
-writepng.o : writepng.c writepng.h
-	gcc -Wall -g -c writepng.c
+writepng.o : writepng.cpp writepng.h
+	g++ -Wall -g -c writepng.cpp
 
 clean : 
 	rm -rf *.o simulate render sim

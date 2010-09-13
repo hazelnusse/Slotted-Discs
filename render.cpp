@@ -1,15 +1,15 @@
-#include <stdio.h>
+#include <iostream>
+// #include <png.h>
 #include <gsl/gsl_odeiv.h>
 #include <GL/osmesa.h>
 #include <GL/glu.h>
 
 
 #include "writepng.h"
-#include <png.h>
-#include "slotted_discs.h"
+#include "twindiscs.h"
 
 // Forward declarations
-static void render_image(sd_t * p, int Width, int Height);
+static void render_image(SlottedDiscs * p, int Width, int Height);
 
 int main(int argc, char ** argv)
 {
@@ -20,28 +20,28 @@ int main(int argc, char ** argv)
   int Width = 1920, Height = 1080;
 
   // Simulation variables
-  sd_t * p = (sd_t *) malloc(sizeof(sd_t));
-  sdInit(p);
-  int i, fps = 60;
+  SlottedDiscs * discs = new SlottedDiscs();
+  int fps = 60;
   double tj;
 
   // Checking for proper usage
   if (argc < 3) {
-    fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  %s w3 filename_root [width height]\n\n", argv[0]);
-    fprintf(stderr, "     w3 : initial angular rate about axis connecting discs.\n");
-    fprintf(stderr, "     filename_root : Base file name for png files to render frames to.\n");
+    cerr << "Usage:" << endl;
+    cerr << "  %s" << argv[0] << " w3 tf filename_root [width height]" << endl << endl;
+    cerr << "     w3 : initial angular rate about axis connecting discs." << endl;
+    cerr << "     tf : simulation time." << endl;
+    cerr << "     filename_root : Base file name for png files to render frames to." << endl;
     return 0;
   }
 
-  p->x[5] = atof(argv[1]);
+  discs->w3 = atof(argv[1]);
   filename_root = argv[3];
   if (argc == 6) {
-    p->tf = atof(argv[2]);
+    discs->tf = atof(argv[2]);
     Width = atoi(argv[4]);
     Height = atoi(argv[5]);
   }
-
+  
   /* Create an RGBA-mode context */
   /* specify Z, stencil, accum bit sizes */
   ctx = OSMesaCreateContextExt(
@@ -68,25 +68,27 @@ int main(int argc, char ** argv)
     return 0;
   }
   
-  sdF(p->t, p->x, p->f, p);
-  sdOutputs(p);
-  render_image(p, Width, Height);
+  double state[6] = {0.0, M_PI/4.0, M_PI/2.0, 0.5, 0.5, 1.0};
+  discs->setState(state);
+  discs->eoms();
+  discs->computeOutputs();
+  render_image(discs, Width, Height);
   sprintf(filename, "%s000.png", filename_root);
   writepng(buffer, filename, Width, Height);
-  for (i = 1; i < fps*p->tf + 1; ++i) {
-    tj = ((double) i) / ((double) fps);
-    while (p->t < tj) {
-      gsl_odeiv_evolve_apply(p->e, p->c, p->s,
-          &(p->sys), &(p->t), tj, &(p->h), p->x);
-    }
-    sdOutputs(p);
-    render_image(p, Width, Height);
-    sprintf(filename, "%s%03d.png", filename_root, i);
+  for (int j = 1; j < fps*discs->tf + 1; ++j) {
+    tj = ((double) j) / ((double) fps);
+    while (discs->t < tj)
+      gsl_odeiv_evolve_apply(discs->e, discs->c, discs->s,
+                             &(discs->sys), &(discs->t), tj,
+                             &(discs->h), state);
+    discs->computeOutputs();
+    render_image(discs, Width, Height);
+    sprintf(filename, "%s%03d.png", filename_root, j);
     writepng(buffer, filename, Width, Height);
-  } // for i
+  } // for j
 
-  sdFree(p);
   // free the image buffer
+  delete discs;
   free(buffer);
 
   // destroy the context
@@ -123,7 +125,7 @@ static void ReferenceFrame(void)
   gluDeleteQuadric(q);
 }  */
 
-static void render_image(sd_t * p, int Width, int Height)
+static void render_image(SlottedDiscs * p, int Width, int Height)
 {
    GLfloat light_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -155,10 +157,11 @@ static void render_image(sd_t * p, int Width, int Height)
    glLoadIdentity();
    //glRotatef(90.0, 1.0, 0.0, 0.0);
    //glRotatef(-90.0, 0.0, 0.0, 1.0);
-   gluLookAt(p->x[3] + 0.5, p->x[4], -1.0,   // camera position 
+   gluLookAt(p->q4 + 0.5, p->q5, -1.0,   // camera position 
              0.0, 0.0, 0.0,   // point camera at this position 
              0.0, 0.0, -1.0);  // define up of the camera 
 
+   /*
    glPushMatrix();
 
    glPushMatrix();
@@ -175,6 +178,7 @@ static void render_image(sd_t * p, int Width, int Height)
 
 
    glPopMatrix();
+   */
 
    glFinish();
 } // render_image()

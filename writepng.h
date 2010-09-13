@@ -1,5 +1,5 @@
-#ifndef  SAVEPNG_H
-#define  SAVEPNG_H
+#ifndef WRITEPNG_H 
+#define WRITEPNG_H
 #include <png.h>
 #include <stdio.h>
 #include <stdlib.h>

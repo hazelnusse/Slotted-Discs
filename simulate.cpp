@@ -52,7 +52,7 @@ int main(int argc, char ** argv)
                              &(discs->h), state);
     discs->computeOutputs();
     OutputFile << discs;
-  } // for i
+  } // for j
 
   OutputFile.close();
   delete discs;
