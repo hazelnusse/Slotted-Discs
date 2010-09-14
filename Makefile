@@ -24,7 +24,14 @@ FORCE:
 	rm -rf $(distdir).tar.bz2
 	rm -rf $(distdir)
 
+distcheck: $(distdir).tar.bz2
+	tar xvf $<
+	cd $(distdir) && $(MAKE) all
+	cd $(distdir) && $(MAKE) clean
+	rm -rf $(distdir)
+	@echo "*** Package $(distdir).tar.bz2 is ready for distribution."
+
 distclean:
 	rm -rf $(distdir).tar.bz2
 
-.PHONY : all clean dist distclean FORCE
+.PHONY : all clean dist distcheck distclean FORCE
