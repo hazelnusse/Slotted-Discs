@@ -37,6 +37,31 @@ ostream &operator<<(ostream &file, const SlottedDiscs * discs)
   return file;
 } // operator <<
 
+void SlottedDiscs::writeRecord_dt(void) const
+{
+  ofstream fp("./record.py", ios::out);
+  fp << "#!/usr/bin/env python" << endl;
+  fp << "import numpy as np" << endl;
+  fp << "record_dt = np.dtype([('t', np.float64), " <<
+        "('q1', np.float64), " <<
+        "('q2', np.float64), " <<
+        "('q3', np.float64), " <<
+        "('x', np.float64), " <<
+        "('y', np.float64), " <<
+        "('w1', np.float64), " <<
+        "('w2', np.float64), " <<
+        "('w3', np.float64), " <<
+        "('nh1', np.float64), " <<
+        "('nh2', np.float64), " <<
+        "('hc', np.float64), " <<
+        "('cbx', np.float64), " <<
+        "('cby', np.float64), " <<
+        "('ke', np.float64), " <<
+        "('pe', np.float64), " <<
+        "('te', np.float64)]) " << endl;
+  fp.close();
+} // writeRecord_dt()
+
 SlottedDiscs::SlottedDiscs()
 {
   // Default parameters
@@ -90,6 +115,11 @@ SlottedDiscs::SlottedDiscs()
   evalConstants();
   eoms();
   computeOutputs();
+
+  // Write the file which holds the numpy record data type so that plotting is
+  // easy
+  writeRecord_dt();
+ 
 } // constructor
 
 SlottedDiscs::~SlottedDiscs()

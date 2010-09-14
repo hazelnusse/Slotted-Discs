@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_odeiv.h>
@@ -44,6 +45,7 @@ class SlottedDiscs {
     void printEnergy(void) const;
     void printParameters() const;
     void printState(void) const;
+    void writeRecord_dt(void) const;
     friend ostream &operator<<(ostream &file, const SlottedDiscs *discs);
 
     // Mutators

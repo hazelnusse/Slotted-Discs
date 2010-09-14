@@ -9,7 +9,7 @@ void setParams(DiscParams * p, double ma, double mb, double ra, double rb, doubl
 int main(int argc, char ** argv)
 {
   SlottedDiscs * discs = new SlottedDiscs();
-  ofstream OutputFile("./simulatecpp.dat", ios::binary);
+  ofstream OutputFile("./simulation.dat", ios::binary);
   DiscParams * p = new DiscParams;
   
   double ma, mb, ra, rb, l, alpha, g;
