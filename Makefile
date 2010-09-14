@@ -1,25 +1,30 @@
-CC = gcc
-CFLAGS = -Wall -g -O3
-CXX = g++
-CXXFLAGS = -Wall -g -O3
+package = slotted-discs
+version = 0.1
+tarname = $(package)
+distdir = $(tarname)-$(version)
 
-all : render simulate 
+all clean render simulate:
+	cd src && $(MAKE) $@
 
-render : render.o twindiscs.o writepng.o
-	$(CXX) -lm -lgsl -lcblas -latlas -lGLU -lOSMesa -lpng -o $@ $^
+dist: $(distdir).tar.bz2
 
-simulate : simulate.o twindiscs.o
-	$(CXX) -lm -lgsl -lcblas -latlas -o $@ $^
+$(distdir).tar.bz2: $(distdir)
+	tar cjf $@ $(distdir)
+	rm -rf $(distdir)
 
-simulate.o : simulate.cpp twindiscs.h
+$(distdir): FORCE
+	mkdir -p $(distdir)/src
+	cp Makefile $(distdir)
+	cp src/Makefile $(distdir)/src
+	cp src/*.cpp $(distdir)/src
+	cp src/*.c $(distdir)/src
+	cp src/*.h $(distdir)/src
 
-twindiscs.o : twindiscs.cpp twindiscs.h
+FORCE:
+	rm -rf $(distdir).tar.bz2
+	rm -rf $(distdir)
 
-render.o : render.cpp writepng.h twindiscs.h
+distclean:
+	rm -rf $(distdir).tar.bz2
 
-writepng.o : writepng.c writepng.h
-
-clean : 
-	rm -rf *.o simulate render
-
-.PHONY: all clean
+.PHONY : all clean dist distclean FORCE
