@@ -1,10 +1,8 @@
 *.swp
 *.o
-sim
 simulate
-simulate.dat
+render
 inertias_al*
-slotted_discs_al*
 heads.jpg
 tails.png
 *.dat
