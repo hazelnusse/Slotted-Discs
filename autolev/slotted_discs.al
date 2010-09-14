@@ -41,13 +41,16 @@ q3' := zee(replace(q3', q2'=rhs(q2')))
 hc = explicit(dot(p_ca_cb>, a3>))
 
 autoz off
-vcon1> = q4'*n1> + q5'*n2> + cross(q1'*a3> + q2'*a1>, p_ca_dao>)
-vcon2> = cross(q1'*a3> + q2'*a1> + q3'*b2>, p_ca_dao>)
-wr[1] = dot(vcon1> - vcon2>, n1>)
-wr[2] = dot(vcon1> - vcon2>, n2>)
+%vcon1> = q4'*n1> + q5'*n2> + cross(q1'*a3> + q2'*a1>, p_ca_dao>)
+%vcon2> = cross(q1'*a3> + q2'*a1> + q3'*b2>, p_ca_dao>)
+%wr[1] = dot(vcon1> - vcon2>, n1>)
+%wr[2] = dot(vcon1> - vcon2>, n2>)
+zero> = q4'*n1> + q5'*n2> - cross(q3'*b2>, p_ca_dao>)
+wr[1] = dot(zero>, n1>)
+wr[2] = dot(zero>, n2>)
 solve(wr, [q4', q5'])
-q4' := zee(replace(q4', q3'=rhs(q3')))
-q5' := zee(replace(q5', q3'=rhs(q3')))
+%q4' := zee(replace(q4', q3'=rhs(q3')))
+%q5' := zee(replace(q5', q3'=rhs(q3')))
 autoz on
 
 w_da_n> := replace(w_da_n>, w1=rhs(w1), w2=rhs(w2))
