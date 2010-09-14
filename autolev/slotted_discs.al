@@ -20,7 +20,8 @@ simprot(da, db, 3, alpha)
 da_s = [1, 0, 0; 0, 1, 0; 0, 0, 1]
 
 p_no_ca> = q4*n1> + q5*n2>
-p_ca_dao> = express(-ra*unitvec(a3> - dot(a3>, da2>)*da2>), da)
+%p_ca_dao> = express(-ra*unitvec(a3> - dot(a3>, da2>)*da2>), da)
+p_ca_dao> = express(-ra*b3>, da)
 p_dao_dbo> = -l*da3>
 p_dao_so> = -k*da3>
 p_dbo_cb> = express(rb*unitvec(a3> - dot(a3>, db2>)*db2>), db)
@@ -41,16 +42,11 @@ q3' := zee(replace(q3', q2'=rhs(q2')))
 hc = explicit(dot(p_ca_cb>, a3>))
 
 autoz off
-%vcon1> = q4'*n1> + q5'*n2> + cross(q1'*a3> + q2'*a1>, p_ca_dao>)
-%vcon2> = cross(q1'*a3> + q2'*a1> + q3'*b2>, p_ca_dao>)
-%wr[1] = dot(vcon1> - vcon2>, n1>)
-%wr[2] = dot(vcon1> - vcon2>, n2>)
 zero> = q4'*n1> + q5'*n2> - cross(q3'*b2>, p_ca_dao>)
 wr[1] = dot(zero>, n1>)
 wr[2] = dot(zero>, n2>)
 solve(wr, [q4', q5'])
-%q4' := zee(replace(q4', q3'=rhs(q3')))
-%q5' := zee(replace(q5', q3'=rhs(q3')))
+pause
 autoz on
 
 w_da_n> := replace(w_da_n>, w1=rhs(w1), w2=rhs(w2))
