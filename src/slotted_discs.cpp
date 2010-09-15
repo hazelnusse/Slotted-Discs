@@ -1,4 +1,4 @@
-#include "twindiscs.h"
+#include "slotted_discs.h"
 
 int eomwrapper(double t, const double x[6], double f[6], void * params)
 {

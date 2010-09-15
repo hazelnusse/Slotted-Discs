@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "twindiscs.h"
+#include "slotted_discs.h"
 
 // Function forward declaration
 void setParams(DiscParams * p, double ma, double mb, double ra, double rb, double l, double alpha, double g);

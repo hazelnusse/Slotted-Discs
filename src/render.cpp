@@ -6,7 +6,7 @@
 
 
 #include "writepng.h"
-#include "twindiscs.h"
+#include "slotted_discs.h"
 
 // Forward declarations
 static void render_image(SlottedDiscs * p, int Width, int Height);
