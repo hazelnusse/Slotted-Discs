@@ -17,7 +17,6 @@ simprot(n, a, 3, q1)
 simprot(a, b, 1, q2)
 simprot(b, da, 2, q3)
 simprot(da, db, 3, alpha)
-%da_s = [1, 0, 0; 0, 1, 0; 0, 0, 1]
 
 p_no_ca> = q4*n1> + q5*n2>
 p_ca_dao> = express(-ra*b3>, da)
@@ -36,12 +35,9 @@ w3 = dot(w_da_n>, da3>)
 
 q1' = (-w1*sin(q3) + w3*cos(q3))/cos(q2)
 q2' = w1*cos(q3) + w3*sin(q3)
-solve(dt(dot(p_ca_cb>, a3>)), q3')
-%q3' := zee(replace(q3', q2'=rhs(q2')))
-
-%hc = explicit(dot(p_ca_cb>, a3>))
-
 autoz off
+solve(dt(dot(p_ca_cb>, a3>)), q3')
+
 zero> = q4'*n1> + q5'*n2> - cross(q3'*b2>, p_ca_dao>)
 wr[1] = dot(zero>, n1>)
 wr[2] = dot(zero>, n2>)
