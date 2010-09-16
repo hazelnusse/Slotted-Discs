@@ -34,8 +34,8 @@ w1 = dot(w_da_n>, da1>)
 w2 = dot(w_da_n>, da2>)
 w3 = dot(w_da_n>, da3>)
 
-q1' = zee((-w1*sin(q3) + w3*cos(q3))/cos(q2))
-q2' = zee(w1*cos(q3) + w3*sin(q3))
+q1' = (-w1*sin(q3) + w3*cos(q3))/cos(q2)
+q2' = w1*cos(q3) + w3*sin(q3)
 solve(dt(dot(p_ca_cb>, a3>)), q3')
 %q3' := zee(replace(q3', q2'=rhs(q2')))
 

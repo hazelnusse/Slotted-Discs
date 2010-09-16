@@ -9,7 +9,7 @@ os.system('rm -rf ./plots/simulation_settings.txt')
 os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
-w=1.0
+w=-1.4
 tf=20.0
 os.system('./src/simulate {0} {1} > ./plots/simulation_settings.txt'.format(w, tf))
 
@@ -67,11 +67,13 @@ plt.legend()
 plt.savefig('./plots/contactpoints.pdf')
 
 plt.figure()
+plt.subplot(211)
+plt.title('Height of COM and Disc B contact')
 plt.plot(data[:]['t'], data[:]['pe']/9.81/4.0, 'k-', label='cm height')
+plt.subplot(212)
 plt.plot(data[:]['t'], data[:]['cbz'], 'r-', label='cb height')
 plt.xlabel('t [s]')
 plt.ylabel(r'meters')
-plt.title('Height of COM and Disc B contact')
 plt.savefig('./plots/heights.pdf')
 
 os.system('tar cjf ./plots/slotted_disc_plots.tar.bz2 ./plots/*.pdf' +
