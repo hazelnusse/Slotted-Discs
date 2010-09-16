@@ -31,6 +31,7 @@ ostream &operator<<(ostream &file, const SlottedDiscs * discs)
   file.write((char *) &discs->w3, sizeof discs->w3);
   file.write((char *) &(discs->con), sizeof discs->con);
   file.write((char *) &(discs->no_cb), sizeof discs->no_cb);
+  file.write((char *) &(discs->w_alt), sizeof discs->w_alt);
   file.write((char *) &(discs->ke), sizeof discs->ke);
   file.write((char *) &(discs->pe), sizeof discs->pe);
   file.write((char *) &(discs->te), sizeof discs->te);
@@ -56,6 +57,9 @@ void SlottedDiscs::writeRecord_dt(void) const
         "('hc', np.float64), " <<
         "('cbx', np.float64), " <<
         "('cby', np.float64), " <<
+        "('w_alt1', np.float64), " <<
+        "('w_alt2', np.float64), " <<
+        "('w_alt3', np.float64), " <<
         "('ke', np.float64), " <<
         "('pe', np.float64), " <<
         "('te', np.float64)]) " << endl;
@@ -343,6 +347,15 @@ void SlottedDiscs::computeOutputs(void)
   z[119] = z[7]*z[113] + z[8]*z[115];
   z[120] = -z[7]*z[114] - z[8]*z[112];
   z[121] = z[7]*z[115] - z[8]*z[113];
+  z[122] = -l - z[10];
+  z[123] = pow(z[9],2) + pow(z[25],2) + pow(z[26],2) + pow(z[27],2) + pow(
+  z[122],2) + 2*z[27]*z[122] + 2*z[7]*z[9]*z[25] + 2*z[8]*z[9]*z[26];
+  z[124] = pow(z[123],0.5);
+  z[125] = z[9]/z[124];
+  z[126] = z[122]/z[124];
+  z[127] = z[25]/z[124];
+  z[128] = z[26]/z[124];
+  z[129] = z[27]/z[124];
 
   con[0] = w3*z[15]*z[26] + z[6]*(z[8]*w1*z[25]-z[7]*w1*z[26]-z[7]*w2*z[25]-
   z[8]*w2*z[26]) - w2*z[6]*z[9] - w3*z[16]*z[25] - w2*z[5]*(l+z[10]-z[27]);
@@ -355,6 +368,13 @@ void SlottedDiscs::computeOutputs(void)
   z[116]*(l+z[10]);
   no_cb[1] = q5 + z[9]*z[113] + z[25]*z[119] + z[27]*z[117] - z[26]*z[121] - 
   z[117]*(l+z[10]);
+  w_alt[0] = w3*(z[126]+z[129]+z[7]*z[36]*z[128]-z[35]*z[125]-z[7]*z[35]*
+  z[127]-z[8]*z[35]*z[128]-z[8]*z[36]*z[127]);
+  w_alt[1] = -w3*(z[4]*z[125]+z[19]*z[128]+z[20]*z[127]+z[4]*z[35]*z[126]+
+  z[36]*(z[13]*z[126]+z[14]*z[125])+z[7]*z[35]*(z[14]*z[128]+z[20]*z[129])+
+  z[8]*z[36]*(z[14]*z[128]+z[20]*z[129])+z[7]*z[36]*(z[14]*z[127]-z[19]*
+  z[129])-z[8]*z[35]*(z[14]*z[127]-z[19]*z[129]));
+  w_alt[2] = -w3*(z[4]*z[36]-z[14]-z[13]*z[35]);
 } // computeOutputs()
 
 void SlottedDiscs::setState(const double state[6])

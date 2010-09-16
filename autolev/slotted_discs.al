@@ -75,6 +75,10 @@ con[3] = dot(p_ca_cb>, a3>)
 no_cb[1] = dot(p_no_cb>, n1>)
 no_cb[2] = dot(p_no_cb>, n2>)
 
+w_alt[1] = dot(w_da_n>, unitvec(p_ca_cb>))
+w_alt[2] = dot(w_da_n>, cross(a3>, unitvec(p_ca_cb>)))
+w_alt[3] = dot(w_da_n>, a3>)
+
 unitsystem  kg,m,s
 input ra = 0.1 m, rb = 0.1 m, l = .1 m, k = 0.0 m
 input alpha = pi/2 rad, m = 0.1 kg, g = 9.81 m/s^2
@@ -84,6 +88,6 @@ input w3 = 0.0 rad/s
 
 output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
 output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, w3 rad/s, ke kg*m^2/s/s, pe kg*m^2/s/s, te kg*m^2/s/s
-encode con, no_cb
+encode con, no_cb, w_alt
 
 code dynamics() slotted_discs_al.c

@@ -11,8 +11,7 @@ os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
 w3=1.0
 tf=20.0
-os.system('./src/simulate {0} {1} > ./plots/simulation_settings.txt'.format(w3,
-    tf))
+os.system('./src/simulate {0} {1} > ./plots/simulation_settings.txt'.format(w3, tf))
 
 # record is a python file written by the SlottedDiscs C++ class.  If we change
 # how we write the records to file, then this python file will be updated
@@ -74,6 +73,20 @@ plt.xlabel('t [s]')
 plt.ylabel(r'meters')
 plt.title('Center of mass height')
 plt.savefig('./plots/com_height.pdf')
+
+plt.figure()
+plt.subplot(311)
+plt.title('Omega expressed in alternate frame')
+plt.plot(data[:]['t'], data[:]['w_alt1'], 'r-', label='Along contact line')
+plt.legend()
+plt.subplot(312)
+plt.plot(data[:]['t'], data[:]['w_alt2'], 'g-', label='In plane, normal to contact line')
+plt.legend()
+plt.subplot(313)
+plt.plot(data[:]['t'], data[:]['w_alt3'], 'b-', label='Normal to ground plane')
+plt.legend()
+plt.xlabel('t [s]')
+plt.savefig('./plots/omega_alt.pdf')
 
 os.system('tar cjf ./plots/slotted_disc_plots.tar.bz2 ./plots/*.pdf' +
           ' ./plots/simulation_settings.txt')
