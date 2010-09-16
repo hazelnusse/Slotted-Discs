@@ -2,7 +2,7 @@
 *.o
 simulate
 render
-inertias_al*
+autolev/*_al.*
 heads.jpg
 tails.png
 *.dat
@@ -14,3 +14,4 @@ makemovie
 *.bz2
 simulation_settings.txt
 *.pyc
+record.py
