@@ -323,7 +323,24 @@ void SlottedDiscs::computeOutputs(void)
   z[100] = z[1]*z[3];
   z[101] = z[1]*z[6] + z[2]*z[12];
   z[102] = z[2]*z[6] - z[1]*z[12];
-  equilibria = -g*m*(z[13]*z[35]-z[4]*z[36]-z[14]*z[37]);
+  equilibria = k*rb*sin(q3)*cos(q2)*(sin(q2)-cos(alpha)*(cos(alpha)*sin(q2)+
+  sin(alpha)*sin(q3)*cos(q2)))/(pow((1-pow((cos(alpha)*sin(q2)+sin(alpha)*sin(
+  q3)*cos(q2)),2)),0.5)*pow((pow((l+ra*cos(q3)-rb*cos(q2)*cos(q3)/pow((1-pow((
+  cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2)),0.5)),2)+pow(rb,2)*pow((
+  sin(q2)-cos(alpha)*(cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2))),2)/(1-
+  pow((cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2))+pow((ra*sin(q3)-rb*(
+  sin(q3)*cos(q2)-sin(alpha)*(cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)))/
+  pow((1-pow((cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2)),0.5)),2)),
+  0.5)) - sin(q2)*(ra*sin(q3)*(l+ra*cos(q3)-rb*cos(q2)*cos(q3)/pow((1-pow((
+  cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2)),0.5))-(k+ra*cos(q3))*(ra*
+  sin(q3)-rb*(sin(q3)*cos(q2)-sin(alpha)*(cos(alpha)*sin(q2)+sin(alpha)*sin(
+  q3)*cos(q2)))/pow((1-pow((cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2)),
+  0.5)))/pow((pow((l+ra*cos(q3)-rb*cos(q2)*cos(q3)/pow((1-pow((cos(alpha)*sin(
+  q2)+sin(alpha)*sin(q3)*cos(q2)),2)),0.5)),2)+pow(rb,2)*pow((sin(q2)-cos(
+  alpha)*(cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2))),2)/(1-pow((cos(
+  alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2))+pow((ra*sin(q3)-rb*(sin(q3)*
+  cos(q2)-sin(alpha)*(cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)))/pow((1-
+  pow((cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2)),0.5)),2)),0.5);
   z[103] = z[7]*z[3] - z[8]*z[4]*z[6];
   z[104] = z[103]*(z[22]+pow(z[20],2)/pow(z[21],0.5))/pow(z[22],2);
   z[105] = z[20]*z[103]/(pow(z[21],0.5)*pow(z[22],2));

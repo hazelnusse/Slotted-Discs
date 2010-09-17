@@ -33,9 +33,6 @@ hc = rb*(cos(Q2)**2*cos(Q3)**2+(sin(alpha)*sin(Q2)-cos(alpha)*sin(Q3)*cos(Q2))**
 def pow(b, e):
     return b**e
 
-# Equilibria
-equilibria = g*m*(k*rb*sin(Q3)*cos(Q2)*(sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/(pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)*pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)+pow(rb,2)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))),2)/(1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)),0.5))-sin(Q2)*(ra*sin(Q3)*(l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5))-(k+ra*cos(Q3))*(ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)))/pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)+pow(rb,2)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))),2)/(1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)),0.5));
-
 plt.figure()
 CS1 = plt.contour(Q2, Q3, hc, levels=[0])
 plt.clabel(CS1, inline=1, fontsize=10)
@@ -43,7 +40,7 @@ plt.xlabel("Lean (q2), radians")
 plt.ylabel("Spin (q3), radians")
 plt.axis([-pi/2.0, pi/2.0, -pi, pi])
 plt.title('Holonomic constraint')
-plt.savefig('holonomic_constraint.pdf')
+plt.savefig('./plots/holonomic_constraint.pdf')
 
 plt.show()
 

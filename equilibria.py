@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import matplotlib.pyplot as plt
 from numpy import sin, cos, sqrt, fromfile, linspace, pi, meshgrid
 
@@ -12,17 +13,17 @@ m = ma + mb
 k = l * mb / m
 
 plt.figure()
-N = 100
+N = 1000
 q2 = linspace(-pi/2.0, pi/2.0, N)
 q3 = linspace(-pi, pi, 2*N)
 Q2, Q3 = meshgrid(q2, q3)
-equilibria = g*m*(k*rb*sin(Q3)*cos(Q2)*(sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/(pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0)),0.5)*pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0)),0.5)),2.0)+pow(rb,2.0)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))),2.0)/(1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0)),0.5)),2.0)),0.5))-sin(Q2)*(ra*sin(Q3)*(l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0)),0.5))-(k+ra*cos(Q3))*(ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0)),0.5)))/pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0)),0.5)),2.0)+pow(rb,2.0)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))),2.0)/(1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2.0)),0.5)),2.0)),0.5));
+equilibria = k*rb*sin(Q3)*cos(Q2)*(sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/(pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0)),0.5)*pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0)),0.5)), 2.0)+pow(rb, 2.0)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))), 2.0)/(1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0)),0.5)), 2.0)),0.5)) - sin(Q2)*(ra*sin(Q3)*(l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0)),0.5))-(k+ra*cos(Q3))*(ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0)),0.5)))/pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0)),0.5)), 2.0)+pow(rb, 2.0)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))), 2.0)/(1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1.0-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)), 2.0)),0.5)), 2.0)),0.5);
 
-CS = plt.contour(Q2, Q3, equilibria, levels=[-0.05, 0.0, 0.05])
-plt.clabel(CS, inline=1, fontsize=10)
+CS = plt.contour(Q2, Q3, equilibria, levels=[-0.025, 0.0, .025])
+#plt.clabel(CS, inline=1, fontsize=10)
 plt.xlabel("Lean (q2), radians")
 plt.ylabel("Spin (q3), radians")
 plt.axis([-pi/2.0, pi/2.0, -pi, pi])
 plt.title('Equilibria')
-
+plt.savefig('./plots/equilibria.pdf')
 plt.show()

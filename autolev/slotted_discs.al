@@ -70,13 +70,8 @@ no_cb[3] = dot(p_no_cb>, a3>)
 
 % Scalar function of lean and spin which must be zero in order for a point in
 % the lean-spin plane to be an equilbrium point.
-equilibria = evaluate(rhs(fr_1) + rhs(fr_star_1), w'=0, w=0)
+equilibria = dot(p_ca_so>, cl2>)
 explicit(equilibria)
-unitsystem  kg,m,s
-output equilibria
-code algebraic() equilibria_al.c
-
-pause
 
 % Angular momentum of system about system mass center
 H_SYS_SO> = dot(I_S_SO>>, w_da_n>)
