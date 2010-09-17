@@ -26,7 +26,10 @@ p_dbo_cb> = express(rb*unitvec(a3> - dot(a3>, db2>)*db2>), da)
 
 zee_not = [w, q1', q2', q3']
 
-w_da_n> = w*unitvec(p_ca_cb>)
+cl1> = unitvec(p_ca_cb>)
+cl2> = cross(a3>, cl1>)
+
+w_da_n> = w*cl1>
 w_db_da> = 0>
 
 w1 = dot(w_da_n>, da1>)
@@ -65,6 +68,71 @@ no_cb[1] = dot(p_no_cb>, n1>)
 no_cb[2] = dot(p_no_cb>, n2>)
 no_cb[3] = dot(p_no_cb>, a3>)
 
+% Scalar function of lean and spin which must be zero in order for a point in
+% the lean-spin plane to be an equilbrium point.
+equilibria = evaluate(rhs(fr_1) + rhs(fr_star_1), w'=0, w=0)
+explicit(equilibria)
+unitsystem  kg,m,s
+output equilibria
+code algebraic() equilibria_al.c
+
+pause
+
+% Angular momentum of system about system mass center
+H_SYS_SO> = dot(I_S_SO>>, w_da_n>)
+% Resolve H into components of the contact line coordinate system
+H[1] = dot(H_SYS_SO>, cl1>)
+H[2] = dot(H_SYS_SO>, cl2>)
+H[3] = dot(H_SYS_SO>, a3>)
+
+% Linear momentum of system mass center
+p[1] = m*dot(v_so_n>, cl1>)
+p[2] = m*dot(v_so_n>, cl2>)
+p[3] = m*dot(v_so_n>, a3>)
+
+% Jacobian of system of 6 ODE's, stored in a length 36 row-major array
+df[1] = d(q1', q1)
+df[2] = d(q1', q2)
+df[3] = d(q1', q3)
+df[4] = d(q1', q4)
+df[5] = d(q1', q5)
+df[6] = d(q1', w)
+
+df[7] = d(q2', q1)
+df[8] = d(q2', q2)
+df[9] = d(q2', q3)
+df[10] = d(q2', q4)
+df[11] = d(q2', q5)
+df[12] = d(q2', w)
+
+df[13] = d(q3', q1)
+df[14] = d(q3', q2)
+df[15] = d(q3', q3)
+df[16] = d(q3', q4)
+df[17] = d(q3', q5)
+df[18] = d(q3', w)
+
+df[19] = d(q4', q1)
+df[20] = d(q4', q2)
+df[21] = d(q4', q3)
+df[22] = d(q4', q4)
+df[23] = d(q4', q5)
+df[24] = d(q4', w)
+
+df[25] = d(q5', q1)
+df[26] = d(q5', q2)
+df[27] = d(q5', q3)
+df[28] = d(q5', q4)
+df[29] = d(q5', q5)
+df[30] = d(q5', w)
+
+df[31] = d(w', q1)
+df[32] = d(w', q2)
+df[33] = d(w', q3)
+df[34] = d(w', q4)
+df[35] = d(w', q5)
+df[36] = d(w', w)
+
 unitsystem  kg,m,s
 input ra = 0.1 m, rb = 0.1 m, l = .1 m, k = 0.0 m
 input alpha = pi/2 rad, m = 0.1 kg, g = 9.81 m/s^2
@@ -74,6 +142,7 @@ input w = 0.0 rad/s
 
 output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
 output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, w3 rad/s, ke kg*m^2/s/s, pe kg*m^2/s/s, te kg*m^2/s/s
-encode no_cb
+output equilibria
+encode no_cb, H, p, df
 
 code dynamics() slotted_discs_al.c

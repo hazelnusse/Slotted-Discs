@@ -16,23 +16,34 @@ data = fromfile('./simulation.dat', dtype=record_dt)
 
 ra = .1
 rb = .1
-l = sqrt(2.0) * ra
+l = 0.15 #sqrt(2.0) * ra
 alpha = pi/2.0
+g = 9.81
+m = 4.0
+k = 0.075
 
-q2 = linspace(-pi/2.0, pi/2.0, 100)
-q3 = linspace(-pi, pi, 200)
+N = 50
+q2 = linspace(-pi/2.0, pi/2.0, N)
+q3 = linspace(-pi, pi, 2*N)
 Q2, Q3 = meshgrid(q2, q3)
+
+# Holonomic constraint
 hc = rb*(cos(Q2)**2*cos(Q3)**2+(sin(alpha)*sin(Q2)-cos(alpha)*sin(Q3)*cos(Q2))**2)/(1-(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))**2)**0.5 - l*cos(Q2)*cos(Q3) - ra*cos(Q2)**2/abs(cos(Q2))
 
+def pow(b, e):
+    return b**e
+
+# Equilibria
+equilibria = g*m*(k*rb*sin(Q3)*cos(Q2)*(sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/(pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)*pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)+pow(rb,2)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))),2)/(1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)),0.5))-sin(Q2)*(ra*sin(Q3)*(l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5))-(k+ra*cos(Q3))*(ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)))/pow((pow((l+ra*cos(Q3)-rb*cos(Q2)*cos(Q3)/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)+pow(rb,2)*pow((sin(Q2)-cos(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2))),2)/(1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2))+pow((ra*sin(Q3)-rb*(sin(Q3)*cos(Q2)-sin(alpha)*(cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)))/pow((1-pow((cos(alpha)*sin(Q2)+sin(alpha)*sin(Q3)*cos(Q2)),2)),0.5)),2)),0.5));
+
 plt.figure()
-CS = plt.contour(Q2, Q3, hc, levels=[0])
-plt.clabel(CS, inline=1, fontsize=10)
+CS1 = plt.contour(Q2, Q3, hc, levels=[0])
+plt.clabel(CS1, inline=1, fontsize=10)
 plt.xlabel("Lean (q2), radians")
 plt.ylabel("Spin (q3), radians")
 plt.axis([-pi/2.0, pi/2.0, -pi, pi])
+plt.title('Holonomic constraint')
+plt.savefig('holonomic_constraint.pdf')
 
-plt.hold(True)
-plt.plot(data[:]['q2'], data[:]['q3'], 'r.')
 plt.show()
 
-plt.savefig('holonomic_constraint.pdf')
