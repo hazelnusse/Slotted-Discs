@@ -4,7 +4,7 @@
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_odeiv.h>
 
-#define Z_MAX 238
+#define Z_MAX 272
 
 using namespace std;
 
@@ -29,6 +29,10 @@ class SlottedDiscs {
     double ke, pe, te, equilibria;
     double z[Z_MAX];
     double no_cb[3], H[3], p[3], df[36];
+    double T_da[16], T_db[16], T_so[16], T_ca[16], T_cb[16];
+
+    // Camera variables
+    double theta, phi, d, ctx, cty, ctz;
 
     // Numerical integrator variables
     const gsl_odeiv_step_type * T;

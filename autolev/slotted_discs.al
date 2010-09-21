@@ -1,18 +1,33 @@
+autoz on
+autorhs on
+
 newtonian n
 bodies s
 frames da, db
-frames a, b
+frames a, b, cam
 
 constants m, ra, rb, l, g, alpha
 constants k
 
 variables q{5}'
 variables w'
+
 points ca, cb
+
+% Camera variables and settings
+points ct        % camera target
+% phi: elevation from horizontal
+% theta: azimuth
+% d:    distance from camera targe along camera z
+% ctx, cty, ctz:  x, y, z coorindates of camera target in inertial coordinates
+constants phi, theta, d, ctx, cty, ctz
+
+dircos(cam, n, body121, theta, phi, pi/2)
+p_camo_ct> = -d*cam3>
+p_no_ct> = ctx*n1> + cty*n2> + ctz*n3>
 
 inertia s(da), Ixx, Iyy, Izz, Ixy, 0, 0
 
-autoz on
 simprot(n, a, 3, q1)
 simprot(a, b, 1, q2)
 simprot(b, da, 2, q3)
@@ -60,6 +75,10 @@ no_cb[1] = dot(p_no_cb>, n1>)
 no_cb[2] = dot(p_no_cb>, n2>)
 no_cb[3] = dot(p_no_cb>, a3>)
 
+no_so[1] = dot(p_no_so>, n1>)
+no_so[2] = dot(p_no_so>, n2>)
+no_so[3] = dot(p_no_so>, a3>)
+
 w1 = dot(w_da_n>, da1>)
 w2 = dot(w_da_n>, da2>)
 w3 = dot(w_da_n>, da3>)
@@ -67,14 +86,109 @@ w3 = dot(w_da_n>, da3>)
 % Angular momentum of system about system mass center
 H_SYS_SO> = dot(I_S_SO>>, w_da_n>)
 % Resolve H into components of the contact line coordinate system
-H[1] = dot(H_SYS_SO>, cl1>)
-H[2] = dot(H_SYS_SO>, cl2>)
-H[3] = dot(H_SYS_SO>, a3>)
+H[1] = dot(H_SYS_SO>, da1>)
+H[2] = dot(H_SYS_SO>, da2>)
+H[3] = dot(H_SYS_SO>, da3>)
 
 % Linear momentum of system mass center
-p[1] = m*dot(v_so_n>, cl1>)
-p[2] = m*dot(v_so_n>, cl2>)
-p[3] = m*dot(v_so_n>, a3>)
+p[1] = m*dot(v_so_n>, da1>)
+p[2] = m*dot(v_so_n>, da2>)
+p[3] = m*dot(v_so_n>, da3>)
+
+% 4x4 OpenGL transformation matrices as column major arrays
+
+% Disc A center
+T_da[1] = dot(cam1>, da1>)
+T_da[2] = dot(cam2>, da1>)
+T_da[3] = dot(cam3>, da1>)
+T_da[4] = 0
+T_da[5] = dot(cam1>, da2>)
+T_da[6] = dot(cam2>, da2>)
+T_da[7] = dot(cam3>, da2>)
+T_da[8] = 0
+T_da[9] = dot(cam1>, da3>)
+T_da[10] = dot(cam2>, da3>)
+T_da[11] = dot(cam3>, da3>)
+T_da[12] = 0
+T_da[13] = dot(p_camo_dao>, cam1>)
+T_da[14] = dot(p_camo_dao>, cam2>)
+T_da[15] = dot(p_camo_dao>, cam3>)
+T_da[16] = 1
+
+% Disc B center
+T_db[1] = dot(cam1>, db1>)
+T_db[2] = dot(cam2>, db1>)
+T_db[3] = dot(cam3>, db1>)
+T_db[4] = 0
+T_db[5] = dot(cam1>, db2>)
+T_db[6] = dot(cam2>, db2>)
+T_db[7] = dot(cam3>, db2>)
+T_db[8] = 0
+T_db[9] = dot(cam1>, db3>)
+T_db[10] = dot(cam2>, db3>)
+T_db[11] = dot(cam3>, db3>)
+T_db[12] = 0
+T_db[13] = dot(p_camo_dbo>, cam1>)
+T_db[14] = dot(p_camo_dbo>, cam2>)
+T_db[15] = dot(p_camo_dbo>, cam3>)
+T_db[16] = 1
+
+% Center of mass
+T_so[1] = dot(cam1>, da1>)
+T_so[2] = dot(cam2>, da1>)
+T_so[3] = dot(cam3>, da1>)
+T_so[4] = 0
+T_so[5] = dot(cam1>, da2>)
+T_so[6] = dot(cam2>, da2>)
+T_so[7] = dot(cam3>, da2>)
+T_so[8] = 0
+T_so[9] = dot(cam1>, da3>)
+T_so[10] = dot(cam2>, da3>)
+T_so[11] = dot(cam3>, da3>)
+T_so[12] = 0
+T_so[13] = dot(p_camo_so>, cam1>)
+T_so[14] = dot(p_camo_so>, cam2>)
+T_so[15] = dot(p_camo_so>, cam3>)
+T_so[16] = 1
+
+% Disc A contact
+T_ca[1] = dot(cam1>, a1>)
+T_ca[2] = dot(cam2>, a1>)
+T_ca[3] = dot(cam3>, a1>)
+T_ca[4] = 0
+T_ca[5] = dot(cam1>, a2>)
+T_ca[6] = dot(cam2>, a2>)
+T_ca[7] = dot(cam3>, a2>)
+T_ca[8] = 0
+T_ca[9] = dot(cam1>, a3>)
+T_ca[10] = dot(cam2>, a3>)
+T_ca[11] = dot(cam3>, a3>)
+T_ca[12] = 0
+T_ca[13] = dot(p_camo_ca>, cam1>)
+T_ca[14] = dot(p_camo_ca>, cam2>)
+T_ca[15] = dot(p_camo_ca>, cam3>)
+T_ca[16] = 1
+
+% Disc B contact
+cb1> = cross(a3>, unitvec(p_dbo_cb>))
+cb2> = cross(a3>, cb1>)
+
+T_cb[1] = dot(cam1>, cb1>)
+T_cb[2] = dot(cam2>, cb1>)
+T_cb[3] = dot(cam3>, cb1>)
+T_cb[4] = 0
+T_cb[5] = dot(cam1>, cb2>)
+T_cb[6] = dot(cam2>, cb2>)
+T_cb[7] = dot(cam3>, cb2>)
+T_cb[8] = 0
+T_cb[9] = dot(cam1>, a3>)
+T_cb[10] = dot(cam2>, a3>)
+T_cb[11] = dot(cam3>, a3>)
+T_cb[12] = 0
+T_cb[13] = dot(p_camo_cb>, cam1>)
+T_cb[14] = dot(p_camo_cb>, cam2>)
+T_cb[15] = dot(p_camo_cb>, cam3>)
+T_cb[16] = 1
 
 % Jacobian of system of 6 ODE's, stored in a length 36 row-major array
 df[1] = d(q1', q1)
@@ -120,6 +234,7 @@ df[35] = d(w', q5)
 df[36] = d(w', w)
 
 unitsystem  kg,m,s
+input theta = pi/4, phi = 0.0, ctx = 0.0, cty = 0.0, ctz = 0.0
 input ra = 0.1 m, rb = 0.1 m, l = .1 m, k = 0.0 m
 input alpha = pi/2 rad, m = 0.1 kg, g = 9.81 m/s^2
 input Ixx = 0.0, Iyy = 0.0, Izz = 0.0, Ixy = 0.0
@@ -128,6 +243,6 @@ input w = 0.0 rad/s
 
 output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
 output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, w3 rad/s, ke kg*m^2/s/s, pe kg*m^2/s/s, te kg*m^2/s/s
-encode no_cb, H, p, df
+encode no_cb, H, p, df, T_da, T_db, T_so, T_ca, T_cb
 
 code dynamics() slotted_discs_al.c

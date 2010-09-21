@@ -9,7 +9,7 @@ os.system('rm -rf ./plots/simulation_settings.txt')
 os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
-w=-1.4
+w=-0.9
 tf=5.0
 os.system('./src/simulate {0} {1} > ./plots/simulation_settings.txt'.format(w, tf))
 
@@ -77,7 +77,7 @@ plt.ylabel(r'meters')
 plt.savefig('./plots/heights.pdf')
 
 plt.figure()
-plt.title('System angular momentum about mass center, expressed in contact line frame')
+plt.title('System angular momentum about mass center, expressed in Disc A coordinates')
 plt.plot(data[:]['t'], data[:]['H1'], 'r-', label='H1')
 plt.plot(data[:]['t'], data[:]['H2'], 'g-', label='H2')
 plt.plot(data[:]['t'], data[:]['H3'], 'b-', label='H3')
@@ -87,7 +87,7 @@ plt.legend()
 plt.savefig('./plots/angularmomentum.pdf')
 
 plt.figure()
-plt.title('System linear momentum, expressed in contact line frame')
+plt.title('System linear momentum, expressed in Disc A coordinates')
 plt.plot(data[:]['t'], data[:]['p1'], 'r-', label='p1')
 plt.plot(data[:]['t'], data[:]['p2'], 'g-', label='p2')
 plt.plot(data[:]['t'], data[:]['p3'], 'b-', label='p3')
