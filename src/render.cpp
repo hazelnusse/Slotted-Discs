@@ -115,15 +115,14 @@ static void Disc(double r)
   glPopMatrix();
   gluDeleteQuadric(q);
 } // Disc()
-/*
-static void ReferenceFrame(void)
+/*static void ReferenceFrame(void)
 {
   GLUquadric *q = gluNewQuadric();
   gluQuadricDrawStyle(q, GLU_FILL);
   gluQuadricNormals(q, GLU_SMOOTH);
   gluCylinder(q, .01, .01, .05, 10, 10);
   gluDeleteQuadric(q);
-}  */
+}*/
 
 static void render_image(SlottedDiscs * p, int Width, int Height)
 {
@@ -131,8 +130,8 @@ static void render_image(SlottedDiscs * p, int Width, int Height)
    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
-   GLfloat red_mat[]   = { 1.0, 0.2, 0.2, 1.0 };
-   GLfloat green_mat[] = { 0.2, 1.0, 0.2, 1.0 };
+   //GLfloat red_mat[]   = { 1.0, 0.2, 0.2, 1.0 };
+   //GLfloat green_mat[] = { 0.2, 1.0, 0.2, 1.0 };
    // GLfloat blue_mat[]  = { 0.2, 0.2, 1.0, 1.0 };
 
 
