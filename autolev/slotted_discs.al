@@ -3,7 +3,7 @@ autorhs on
 
 newtonian n
 bodies s
-frames da, db
+frames da, db, dagl, dbgl
 frames a, b, cam
 
 constants m, ra, rb, l, g, alpha
@@ -33,6 +33,12 @@ simprot(a, b, 1, q2)
 simprot(b, da, 2, q3)
 simprot(da, db, 3, alpha)
 
+% OpenGL functions draw most symmetric objects with axis of symmetry along
+%z-axis, but since our axis of symmetry is the y axis, we need to do a rotation
+%about the x-axis by -pi/2
+simprot(da, dagl, 1, -pi/2)
+simprot(db, dbgl, 1, -pi/2)
+
 p_no_ca> = q4*n1> + q5*n2>
 p_ca_dao> = express(-ra*b3>, da)
 p_dao_dbo> = -l*da3>
@@ -47,7 +53,16 @@ cl2> = cross(a3>, cl1>)
 w_da_n> = w*cl1>
 w_db_da> = 0>
 
-kindiffs(N, DA, BODY312, q1, q2, q3)
+w1 = dot(w_da_n>, da1>)
+w2 = dot(w_da_n>, da2>)
+w3 = dot(w_da_n>, da3>)
+
+q1' = (-w1*zee(sin(q3)) + w3*zee(cos(q3)))/zee(cos(q2))
+q2' = w1*zee(cos(q3)) + w3*zee(sin(q3))
+autoz off
+solve(dt(dot(p_ca_cb>, a3>)), q3')
+zee(q3')
+autoz on
 
 zero> = q4'*n1> + q5'*n2> - cross(q3'*b2>, p_ca_dao>)
 wr[1] = dot(zero>, n1>)
@@ -78,10 +93,6 @@ no_cb[3] = dot(p_no_cb>, a3>)
 no_so[1] = dot(p_no_so>, n1>)
 no_so[2] = dot(p_no_so>, n2>)
 no_so[3] = dot(p_no_so>, a3>)
-
-w1 = dot(w_da_n>, da1>)
-w2 = dot(w_da_n>, da2>)
-w3 = dot(w_da_n>, da3>)
 
 % Angular momentum of system about system mass center
 H_SYS_SO> = dot(I_S_SO>>, w_da_n>)
@@ -132,6 +143,42 @@ T_db[13] = dot(p_camo_dbo>, cam1>)
 T_db[14] = dot(p_camo_dbo>, cam2>)
 T_db[15] = dot(p_camo_dbo>, cam3>)
 T_db[16] = 1
+
+% Disc A center for OpenGL shapes
+T_dagl[1] = dot(cam1>, dagl1>)
+T_dagl[2] = dot(cam2>, dagl1>)
+T_dagl[3] = dot(cam3>, dagl1>)
+T_dagl[4] = 0
+T_dagl[5] = dot(cam1>, dagl2>)
+T_dagl[6] = dot(cam2>, dagl2>)
+T_dagl[7] = dot(cam3>, dagl2>)
+T_dagl[8] = 0
+T_dagl[9] = dot(cam1>, dagl3>)
+T_dagl[10] = dot(cam2>, dagl3>)
+T_dagl[11] = dot(cam3>, dagl3>)
+T_dagl[12] = 0
+T_dagl[13] = dot(p_camo_dao>, cam1>)
+T_dagl[14] = dot(p_camo_dao>, cam2>)
+T_dagl[15] = dot(p_camo_dao>, cam3>)
+T_dagl[16] = 1
+
+% Disc B center for OpenGL shapes
+T_dbgl[1] = dot(cam1>, dbgl1>)
+T_dbgl[2] = dot(cam2>, dbgl1>)
+T_dbgl[3] = dot(cam3>, dbgl1>)
+T_dbgl[4] = 0
+T_dbgl[5] = dot(cam1>, dbgl2>)
+T_dbgl[6] = dot(cam2>, dbgl2>)
+T_dbgl[7] = dot(cam3>, dbgl2>)
+T_dbgl[8] = 0
+T_dbgl[9] = dot(cam1>, dbgl3>)
+T_dbgl[10] = dot(cam2>, dbgl3>)
+T_dbgl[11] = dot(cam3>, dbgl3>)
+T_dbgl[12] = 0
+T_dbgl[13] = dot(p_camo_dbo>, cam1>)
+T_dbgl[14] = dot(p_camo_dbo>, cam2>)
+T_dbgl[15] = dot(p_camo_dbo>, cam3>)
+T_dbgl[16] = 1
 
 % Center of mass
 T_so[1] = dot(cam1>, da1>)
@@ -243,6 +290,6 @@ input w = 0.0 rad/s
 
 output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
 output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, w3 rad/s, ke kg*m^2/s/s, pe kg*m^2/s/s, te kg*m^2/s/s
-encode no_cb, H, p, df, T_da, T_db, T_so, T_ca, T_cb
+encode no_cb, H, p, df, T_da, T_db, T_so, T_ca, T_cb, T_dagl, T_dbgl
 
 code dynamics() slotted_discs_al.c
