@@ -39,6 +39,28 @@ ostream &operator<<(ostream &file, const SlottedDiscs * discs)
   return file;
 } // operator <<
 
+void setParams(DiscParams * p, double ma, double mb, double ra, double rb, double l, double alpha, double g) 
+{
+  double Ia = ma*ra*ra/4.0;
+  double Ja = ma*ra*ra/2.0;
+  double Ib = mb*rb*rb/4.0;
+  double Jb = mb*rb*rb/2.0;
+  p->m = ma + mb;
+  p->ra = ra;
+  p->rb = rb;
+  p->l = l;
+  p->g = 9.81;
+  p->alpha = alpha;
+  p->k = l*mb/(ma+mb);
+  p->Ixx = Ia + Ib*pow(cos(alpha),2) + Jb*pow(sin(alpha),2) + mb*pow(l,2)*(ma*mb/
+  pow((ma+mb),2)+pow((1-mb/(ma+mb)),2));
+  p->Iyy = Ja + Jb + pow(sin(alpha),2)*(Ib-Jb) + mb*pow(l,2)*(ma*mb/pow((ma+mb),
+  2)+pow((1-mb/(ma+mb)),2));
+  p->Izz = Ia + Ib + mb*pow(l,2)*pow((1-mb/(ma+mb)),2) + mb*pow(l,2)*(-1+mb/(ma+
+  mb))*(1-mb/(ma+mb));
+  p->Ixy = sin(alpha)*cos(alpha)*(Ib-Jb);
+} // setParams
+
 void SlottedDiscs::writeRecord_dt(void) const
 {
   ofstream fp("./record.py", ios::out);
@@ -118,6 +140,14 @@ SlottedDiscs::SlottedDiscs()
   for (int i = 0; i < Z_MAX; ++i)
     z[i] = 0.0;
 
+  // Camera settings
+  theta = M_PI / 4.0;
+  phi = 0.0;
+  d = 1.0;
+  ctx = .35;
+  cty = .35; 
+  ctz = 0.0;
+  
   // Constants
   evalConstants();
   eoms();

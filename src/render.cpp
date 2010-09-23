@@ -21,25 +21,37 @@ int main(int argc, char ** argv)
 
   // Simulation variables
   SlottedDiscs * discs = new SlottedDiscs();
+  DiscParams * p = new DiscParams;
   int fps = 60;
   double tj;
+  double state[6] = {M_PI, M_PI/4.0, M_PI/2.0, 0.0, 0.0, 1.0};
+  
+  double ma, mb, ra, rb, l, alpha, g;
+  ma = mb = 2.0;
+  ra = rb = 0.1;
+  l = .1; //sqrt(2.0)*ra;
+  alpha = M_PI/2.0;
+  g = 9.81;
+  setParams(p, ma, mb, ra, rb, l, alpha, g);
+  discs->setParameters(p);
 
   // Checking for proper usage
   if (argc < 3) {
     cerr << "Usage:" << endl;
-    cerr << "  %s" << argv[0] << " w3 tf filename_root [width height]" << endl << endl;
-    cerr << "     w3 : initial angular rate about axis connecting discs." << endl;
+    cerr << "  %s" << argv[0] << " w tf filename_root [width height]" << endl << endl;
+    cerr << "     w : initial angular rate about contact line." << endl;
     cerr << "     tf : simulation time." << endl;
     cerr << "     filename_root : Base file name for png files to render frames to." << endl;
     return 0;
   }
 
-  discs->w3 = atof(argv[1]);
-  filename_root = argv[3];
-  if (argc == 6) {
-    discs->tf = atof(argv[2]);
-    Width = atoi(argv[4]);
-    Height = atoi(argv[5]);
+  state[5] = atof(argv[1]);
+  discs->tf = atof(argv[2]);
+  discs->d = atof(argv[3]);
+  filename_root = argv[4];
+  if (argc == 7) {
+    Width = atoi(argv[5]);
+    Height = atoi(argv[6]);
   }
   
   /* Create an RGBA-mode context */
@@ -68,12 +80,11 @@ int main(int argc, char ** argv)
     return 0;
   }
   
-  double state[6] = {0.0, M_PI/4.0, M_PI/2.0, 0.5, 0.5, 1.0};
   discs->setState(state);
   discs->eoms();
   discs->computeOutputs();
   render_image(discs, Width, Height);
-  sprintf(filename, "%s000.png", filename_root);
+  sprintf(filename, "%s0000.png", filename_root);
   writepng(buffer, filename, Width, Height);
   for (int j = 1; j < fps*discs->tf + 1; ++j) {
     tj = ((double) j) / ((double) fps);
@@ -83,7 +94,7 @@ int main(int argc, char ** argv)
                              &(discs->h), state);
     discs->computeOutputs();
     render_image(discs, Width, Height);
-    sprintf(filename, "%s%03d.png", filename_root, j);
+    sprintf(filename, "%s%04d.png", filename_root, j);
     writepng(buffer, filename, Width, Height);
   } // for j
 
@@ -105,13 +116,9 @@ static void Disc(double r)
   gluQuadricNormals(q, GLU_SMOOTH);
   // Drawing routines
   glPushMatrix();
-    // Rotate about x so cylinder height is along the previous y axis
-    glRotatef(90.0, 1.0, 0.0, 0.0);
-    gluCylinder(q, r, 0.0, .1*r, 100, 50);
-    glPushMatrix();
-      glRotatef(180.0, 1.0, 0.0, 0.0);
-      gluCylinder(q, r, 0.0, .1*r, 100, 50);
-    glPopMatrix();
+    gluCylinder(q, r, 0.0, 0.2*r, 100, 50);
+    glRotatef(180.0, 1.0, 0.0, 0.0);
+    gluCylinder(q, r, 0.0, 0.2*r, 100, 50);
   glPopMatrix();
   gluDeleteQuadric(q);
 } // Disc()
@@ -130,8 +137,8 @@ static void render_image(SlottedDiscs * p, int Width, int Height)
    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
-   //GLfloat red_mat[]   = { 1.0, 0.2, 0.2, 1.0 };
-   //GLfloat green_mat[] = { 0.2, 1.0, 0.2, 1.0 };
+   GLfloat red_mat[]   = { 1.0, 0.2, 0.2, 1.0 };
+   GLfloat green_mat[] = { 0.2, 1.0, 0.2, 1.0 };
    // GLfloat blue_mat[]  = { 0.2, 0.2, 1.0, 1.0 };
 
 
@@ -154,30 +161,18 @@ static void render_image(SlottedDiscs * p, int Width, int Height)
 
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
-   //glRotatef(90.0, 1.0, 0.0, 0.0);
-   //glRotatef(-90.0, 0.0, 0.0, 1.0);
-   gluLookAt(p->q4 + 0.5, p->q5, -1.0,   // camera position 
-             0.0, 0.0, 0.0,   // point camera at this position 
-             0.0, 0.0, -1.0);  // define up of the camera 
-
-   /*
-   glPushMatrix();
 
    glPushMatrix();
-     glMultMatrixd(p->T_da);
+     glMultMatrixd(p->T_dagl);
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, red_mat);
      Disc(p->ra);
    glPopMatrix();
    
    glPushMatrix();
-     glMultMatrixd(p->T_db);
+     glMultMatrixd(p->T_dbgl);
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, green_mat);
      Disc(p->rb);
    glPopMatrix();
-
-
-   glPopMatrix();
-   */
 
    glFinish();
 } // render_image()

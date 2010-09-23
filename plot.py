@@ -9,8 +9,8 @@ os.system('rm -rf ./plots/simulation_settings.txt')
 os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
-w=-0.9
-tf=5.0
+w=2.8
+tf=10.0
 os.system('./src/simulate {0} {1} > ./plots/simulation_settings.txt'.format(w, tf))
 
 # record is a python file written by the SlottedDiscs C++ class.  If we change
@@ -31,6 +31,15 @@ plt.legend()
 plt.savefig('./plots/energy.pdf')
 
 plt.figure()
+plt.plot(data[:]['t'], data[:]['w'], 'r-', label='w')
+#plt.plot(data[:]['t'], data[:]['w']**2.0, 'g-', label='w^2')
+plt.xlabel('t [s]')
+plt.ylabel('Angular velocity [rad/s]')
+plt.title('Angular velocity about contact line')
+plt.legend()
+plt.savefig('./plots/independentspeed.pdf')
+
+plt.figure()
 plt.plot(data[:]['t'], data[:]['q1'], 'r-', label='Yaw')
 plt.plot(data[:]['t'], data[:]['q2'], 'g-', label='Lean')
 plt.plot(data[:]['t'], data[:]['q3'], 'b-', label='Spin')
@@ -49,14 +58,6 @@ plt.ylabel('Angular velocity [rad/s]')
 plt.title('Body fixed angular velocity')
 plt.legend()
 plt.savefig('./plots/angularvelocity.pdf')
-
-plt.figure()
-plt.plot(data[:]['t'], data[:]['w'], 'r-', label='u')
-plt.xlabel('t [s]')
-plt.ylabel('Angular velocity [rad/s]')
-plt.title('Angular velocity about contact line')
-plt.legend()
-plt.savefig('./plots/independentspeed.pdf')
 
 
 plt.figure()

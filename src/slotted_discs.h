@@ -16,6 +16,10 @@ typedef struct {
   double m, ra, rb, l, k, g, alpha, Ixx, Iyy, Izz, Ixy;
 } DiscParams;
 
+// Given masses, radii, offset distance and angles of two discs, populate a
+// DiscParams struct with the minimal model parameters.
+void setParams(DiscParams * p, double ma, double mb, double ra, double rb, double l, double alpha, double g);
+
 class SlottedDiscs {
   private:
 
