@@ -11,6 +11,8 @@ constants k
 
 variables q{5}'
 variables w'
+variables fax, fay, faz, fbx, fby, fbz
+constants au1, au2, au3, au4, au5, au6
 
 points ca, cb
 
@@ -27,6 +29,7 @@ p_camo_ct> = -d*cam3>
 p_no_ct> = ctx*n1> + cty*n2> + ctz*n3>
 
 inertia s(da), Ixx, Iyy, Izz, Ixy, 0, 0
+mass s=m
 
 simprot(n, a, 3, q1)
 simprot(a, b, 1, q2)
@@ -50,6 +53,10 @@ zee_not = [w]
 cl1> = unitvec(p_ca_cb>)
 cl2> = cross(a3>, cl1>)
 
+% Disc B contact
+cb1> = cross(a3>, unitvec(p_dbo_cb>))
+cb2> = cross(a3>, cb1>)
+
 w_da_n> = w*cl1>
 w_db_da> = 0>
 
@@ -69,17 +76,60 @@ wr[1] = dot(zero>, n1>)
 wr[2] = dot(zero>, n2>)
 solve(wr, [q4', q5'])
 
-v_so_n> = cross(w_da_n>, p_ca_so>)
-zee_not := [w']
+zee_not := [w, fax, fay, faz, fbx, fby, fbz]
+v_so_n> = cross(w*cl1>, p_ca_so>)
+
+zee_not := [w', fax, fay, faz, fbx, fby, fbz, au1, au2, au3, au4, au5, au6]
 
 alf_da_n> = dt(w_da_n>, da)
 a_so_n> = dt(v_so_n>, da) + cross(w_da_n>, v_so_n>)
 
-fr_1 = dot(g*m*a3>, coef(v_so_n>, w))
-fr_star_1 = -dot(m*a_so_n>, coef(v_so_n>, w)) &
-            -dot(dot(alf_da_n>, I_S_SO>>) + cross(w_da_n>, dot(I_S_SO>>, w_da_n>)), coef(w_da_n>, w))
+f_so> = g*m*a3>
 
-solve(rhs(fr_1) + rhs(fr_star_1), w')
+R_star> = - m*a_so_n>
+T_star> = - dot(alf_da_n>, I_S_SO>>) - cross(w_da_n>, dot(I_S_SO>>, w_da_n>))
+
+% Single motion equation
+solve(dot(f_so>, cross(cl1>, p_ca_so>)) + dot(cl1>, T_star>) + dot(cross(cl1>, p_ca_so>), R_star>), w')
+
+% Constraint force determination
+f_ca> = fay*cl2> + faz*a3>
+f_cb> = fby*cl2> + fbz*a3>
+
+% Moments about Disc A contact
+t_ca> = cross(p_ca_cb>, f_cb>) + cross(p_ca_so>, f_so>)
+H_ca> = dot(I_S_CA>>, w_da_n>)
+H_ca_dot> = dt(H_ca>, da) + cross(w_da_n>, H_ca>)
+H_ca_dot> := replace(H_ca_dot>, w'=rhs(w'))
+NE1> = t_ca> - H_ca_dot>
+con_eqns1 = [dot(NE1>, cl2>), dot(NE1>, a3>)]
+solve(con_eqns1, [fby, fbz])
+
+% Moments about Disc B contact
+t_cb> = cross(p_cb_ca>, f_ca>) + cross(p_cb_so>, f_so>)
+H_cb> = dot(I_S_CB>>, w_da_n>)
+H_cb_dot> = dt(H_cb>, da) + cross(w_da_n>, H_cb>)
+H_cb_dot> := replace(H_cb_dot>, w'=rhs(w'))
+NE2> = t_cb> - H_cb_dot>
+con_eqns2 = [dot(NE2>, cl2>), dot(NE2>, a3>)]
+solve(con_eqns2, [fay, faz])
+
+% Moments about System Mass center
+%f_ca> := fax*cl1> %+ rhs(fay)*cl2> + rhs(faz)*a3>
+%f_cb> := fbx*cl1> %+ rhs(fby)*cl2> + rhs(fbz)*a3>
+%t_so> = cross(p_so_ca>, f_ca>) + cross(p_so_cb>, f_cb>)
+%H_so> = dot(I_S_SO>>, w_da_n>)
+%H_so_dot> = dt(H_so>, da) + cross(w_da_n>, H_so>)
+%H_so_dot> := replace(H_so_dot>, w'=rhs(w'))
+%NE3> = t_so> - H_so_dot>
+
+% F=ma at mass center
+%f_so> := g*m*a3> + f_ca> + f_cb>
+%pause
+%NE4> = f_so> + replace(R_star>, w'=rhs(w'))
+
+%con_eqns3 = [dot(NE3>, cl1> + cl2> + a3>), dot(NE4>, cl1> + cl2> + a3>)]
+%solve(con_eqns3, [fax, fbx])
 
 % Extraneous outputs
 ke = m*dot(v_so_n>, v_so_n>)/2.0 + dot(w_da_n>, dot(I_S_SO>>, w_da_n>))/2.0
@@ -97,14 +147,14 @@ no_so[3] = dot(p_no_so>, a3>)
 % Angular momentum of system about system mass center
 H_SYS_SO> = dot(I_S_SO>>, w_da_n>)
 % Resolve H into components of the contact line coordinate system
-H[1] = dot(H_SYS_SO>, da1>)
-H[2] = dot(H_SYS_SO>, da2>)
-H[3] = dot(H_SYS_SO>, da3>)
+H[1] = dot(H_SYS_SO>, cl1>)
+H[2] = dot(H_SYS_SO>, cl2>)
+H[3] = dot(H_SYS_SO>, a3>)
 
 % Linear momentum of system mass center
-p[1] = m*dot(v_so_n>, da1>)
-p[2] = m*dot(v_so_n>, da2>)
-p[3] = m*dot(v_so_n>, da3>)
+p[1] = m*dot(v_so_n>, cl1>)
+p[2] = m*dot(v_so_n>, cl2>)
+p[3] = m*dot(v_so_n>, a3>)
 
 % 4x4 OpenGL transformation matrices as column major arrays
 
@@ -216,10 +266,6 @@ T_ca[14] = dot(p_camo_ca>, cam2>)
 T_ca[15] = dot(p_camo_ca>, cam3>)
 T_ca[16] = 1
 
-% Disc B contact
-cb1> = cross(a3>, unitvec(p_dbo_cb>))
-cb2> = cross(a3>, cb1>)
-
 T_cb[1] = dot(cam1>, cb1>)
 T_cb[2] = dot(cam2>, cb1>)
 T_cb[3] = dot(cam3>, cb1>)
@@ -286,10 +332,11 @@ input ra = 0.1 m, rb = 0.1 m, l = .1 m, k = 0.0 m
 input alpha = pi/2 rad, m = 0.1 kg, g = 9.81 m/s^2
 input Ixx = 0.0, Iyy = 0.0, Izz = 0.0, Ixy = 0.0
 input q1 = 0.0 rad, q2 = 0.0 rad, q3 = 0.0, q4 = 0.0 m, q5 = 0.0 m
-input w = 0.0 rad/s
+input w = 0.0 rad/s, d = 1.5 m
 
 output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
 output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, w3 rad/s, ke kg*m^2/s/s, pe kg*m^2/s/s, te kg*m^2/s/s
-encode no_cb, H, p, df, T_da, T_db, T_so, T_ca, T_cb, T_dagl, T_dbgl
+output fax, fay, faz, fbx, fby, fbz
+encode no_cb, no_so, H, p, df, T_da, T_db, T_so, T_ca, T_cb, T_dagl, T_dbgl
 
 code dynamics() slotted_discs_al.c
