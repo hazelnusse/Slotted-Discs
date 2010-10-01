@@ -20,7 +20,7 @@ int main(int argc, char ** argv)
 
   // Numerical integration loop
   int fps = 1000;
-  double tj, state[6] = {0.0, M_PI/4.0, M_PI/2.0, 0.5, 0.5, 1.0};
+  double tj, state[6] = {0.0, M_PI/4.0, M_PI/2.0, 0.0, 0.0, 1.0};
   // Set the speed if that is all that is specified
   if (argc == 2)
     state[5] = atof(argv[1]);
