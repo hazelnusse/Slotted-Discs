@@ -12,7 +12,7 @@ int main(int argc, char ** argv)
   double ma, mb, ra, rb, l, alpha, g;
   ma = mb = 2.0;
   ra = rb = 0.1;
-  l = .1; //sqrt(2.0)*ra;
+  l = sqrt(2.0)*ra;
   alpha = M_PI/2.0;
   g = 9.81;
   setParams(p, ma, mb, ra, rb, l, alpha, g);
