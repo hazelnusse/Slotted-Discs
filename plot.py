@@ -9,8 +9,8 @@ os.system('rm -rf ./plots/simulation_settings.txt')
 os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
-w=8.4
-tf=1.0
+w=3.0
+tf=5.0
 os.system('./src/simulate {0} {1} > ./plots/simulation_settings.txt'.format(w, tf))
 
 # record is a python file written by the SlottedDiscs C++ class.  If we change
@@ -28,8 +28,6 @@ for i in range(data.size):
     if i % 20 == 0:
         plt.plot([data[i]['x'], data[i]['cbx']], [data[i]['y'], data[i]['cby']],  'k-')
 plt.title('Disc contact points')
-plt.plot(data[101]['x'], data[101]['y'], 'rx')
-plt.plot(data[101]['cbx'], data[101]['cby'], 'rx')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.legend()
@@ -39,9 +37,6 @@ plt.figure()
 plt.plot(data[:]['t'], data[:]['w1'], 'r-', label='w1')
 plt.plot(data[:]['t'], data[:]['w2'], 'g-', label='w2')
 plt.plot(data[:]['t'], data[:]['w3'], 'b-', label='w3')
-plt.plot(data[101]['t'], data[101]['w1'], 'ro')
-plt.plot(data[101]['t'], data[101]['w2'], 'go')
-plt.plot(data[101]['t'], data[101]['w3'], 'bo')
 plt.xlabel('t [s]')
 plt.ylabel('Angular velocity [rad/s]')
 plt.title('Body fixed angular velocity')
@@ -49,19 +44,26 @@ plt.legend()
 plt.savefig('./plots/angularvelocity.pdf')
 
 plt.figure()
-plt.title('Reaction forces normal to contactline')
-#plt.plot(data[:]['t'], data[:]['fax'], 'r-', label='fax')
-plt.plot(data[:]['t'], data[:]['fay'], 'r-', label=r'$R_a \cdot cl_2$')
-plt.plot(data[:]['t'], data[:]['faz'], 'r-.', label=r'$R_a \cdot n_3$')
+plt.title('Reaction forces')
+plt.plot(data[:]['t'], data[:]['fay'], 'r--', label=r'$R_a \cdot cl_2$')
+plt.plot(data[:]['t'], data[:]['faz'], 'r-', label=r'$R_a \cdot n_3$')
+plt.plot(data[:]['t'], data[:]['fby'], 'g--', label=r'$R_b \cdot cl_2$')
+plt.plot(data[:]['t'], data[:]['fbz'], 'g-', label=r'$R_b \cdot n_3$')
+plt.plot(data[:]['t'], data[:]['fx'], 'b-.', label=r'$(R_a + R_b) \cdot cl_1$')
 plt.legend()
-#plt.plot(data[:]['t'], data[:]['fbx'], 'r-', label='fbx')
-plt.plot(data[:]['t'], data[:]['fby'], 'g-', label=r'$R_b \cdot cl_2$')
-plt.plot(data[:]['t'], data[:]['fbz'], 'g-.', label=r'$R_b \cdot n_3$')
 plt.xlabel('t [s]')
 plt.legend()
 plt.savefig('./plots/forces.pdf')
-plt.show()
-stop
+
+
+plt.figure()
+plt.title('CM acceleration')
+plt.plot(data[:]['t'], data[:]['aso1'], label=r'$a_{so} \cdot cl_1$')
+plt.plot(data[:]['t'], data[:]['aso2'], label=r'$a_{so} \cdot cl_2$')
+plt.plot(data[:]['t'], data[:]['aso3'], label=r'$a_{so} \cdot n_3$')
+plt.legend()
+plt.xlabel('t [s]')
+plt.savefig('./plots/accelerations.pdf')
 
 plt.figure()
 plt.plot(data[:]['t'], data[:]['ke'], 'r-', label='Kinetic')
@@ -75,8 +77,7 @@ plt.savefig('./plots/energy.pdf')
 
 plt.figure()
 plt.plot(data[:]['t'], data[:]['w'], 'r-', label='w')
-#plt.plot(data[:]['t'], data[:]['w']**2.0, 'g-', label='w^2')
-plt.xlabel('t [s]')
+plt.xlabel('time [s]')
 plt.ylabel('Angular velocity [rad/s]')
 plt.title('Angular velocity about contact line')
 plt.legend()

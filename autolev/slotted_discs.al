@@ -11,7 +11,7 @@ constants k
 
 variables q{5}'
 variables w'
-variables fax, fay, faz, fbx, fby, fbz
+variables fx, fay, faz, fby, fbz
 constants au1, au2, au3, au4, au5, au6
 
 points ca, cb
@@ -76,10 +76,10 @@ wr[1] = dot(zero>, n1>)
 wr[2] = dot(zero>, n2>)
 solve(wr, [q4', q5'])
 
-zee_not := [w, fax, fay, faz, fbx, fby, fbz]
+zee_not := [w, fx, fay, faz, fby, fbz]
 v_so_n> = cross(w*cl1>, p_ca_so>)
 
-zee_not := [w', fax, fay, faz, fbx, fby, fbz, au1, au2, au3, au4, au5, au6]
+zee_not := [w', fx, fay, faz, fby, fbz]
 
 alf_da_n> = dt(w_da_n>, da)
 a_so_n> = dt(v_so_n>, da) + cross(w_da_n>, v_so_n>)
@@ -100,7 +100,7 @@ f_cb> = fby*cl2> + fbz*a3>
 t_ca> = cross(p_ca_cb>, f_cb>) + cross(p_ca_so>, f_so>)
 H_ca> = dot(I_S_CA>>, w_da_n>)
 H_ca_dot> = dt(H_ca>, da) + cross(w_da_n>, H_ca>)
-H_ca_dot> := replace(H_ca_dot>, w'=rhs(w'))
+H_ca_dot> := H_ca_dot>
 NE1> = t_ca> - H_ca_dot>
 con_eqns1 = [dot(NE1>, cl2>), dot(NE1>, a3>)]
 solve(con_eqns1, [fby, fbz])
@@ -109,27 +109,37 @@ solve(con_eqns1, [fby, fbz])
 t_cb> = cross(p_cb_ca>, f_ca>) + cross(p_cb_so>, f_so>)
 H_cb> = dot(I_S_CB>>, w_da_n>)
 H_cb_dot> = dt(H_cb>, da) + cross(w_da_n>, H_cb>)
-H_cb_dot> := replace(H_cb_dot>, w'=rhs(w'))
+H_cb_dot> := H_cb_dot>
 NE2> = t_cb> - H_cb_dot>
 con_eqns2 = [dot(NE2>, cl2>), dot(NE2>, a3>)]
 solve(con_eqns2, [fay, faz])
 
-% Moments about System Mass center
-%f_ca> := fax*cl1> %+ rhs(fay)*cl2> + rhs(faz)*a3>
-%f_cb> := fbx*cl1> %+ rhs(fby)*cl2> + rhs(fbz)*a3>
-%t_so> = cross(p_so_ca>, f_ca>) + cross(p_so_cb>, f_cb>)
-%H_so> = dot(I_S_SO>>, w_da_n>)
-%H_so_dot> = dt(H_so>, da) + cross(w_da_n>, H_so>)
-%H_so_dot> := replace(H_so_dot>, w'=rhs(w'))
-%NE3> = t_so> - H_so_dot>
+% Forces along contact line are indeterminate, best we can do is solve for
+% resultant along contact line
+fx = m*dot(a_so_n>, cl1>)
 
-% F=ma at mass center
-%f_so> := g*m*a3> + f_ca> + f_cb>
-%pause
-%NE4> = f_so> + replace(R_star>, w'=rhs(w'))
+% Forward dynamics problem -- given the forces calculated above, we should be
+% able to apply them to another rigid body with identical geometry and inertia
+% and it should move identically.  This will be used as a check that the
+% constraint forces were calculated correctly
+%body s2
+%frames da2, db2
+%frames a2, b2
+%points ca2, cb2
+%inertia s2(da2), Ixx, Iyy, Izz, Ixy, 0, 0
+%mass s2=m
 
-%con_eqns3 = [dot(NE3>, cl1> + cl2> + a3>), dot(NE4>, cl1> + cl2> + a3>)]
-%solve(con_eqns3, [fax, fbx])
+%variables q2{5}'
+%simprot(n, a2, 3, q21)
+%simprot(a2, b2, 1, q22)
+%simprot(b2, da2, 2, q23)
+%simprot(da2, db2, 3, alpha)
+
+%p_no_ca2> = q24*n1> + q25*n2>
+%p_ca2_da2o> = express(-ra*b23>, da2)
+%p_da2o_db2o> = -l*da23>
+%p_da2o_s2o> = -k*da23>
+%p_db2o_cb2> = express(rb*unitvec(a23> - dot(a23>, db2>)*db2>), da2)
 
 % Extraneous outputs
 ke = m*dot(v_so_n>, v_so_n>)/2.0 + dot(w_da_n>, dot(I_S_SO>>, w_da_n>))/2.0
@@ -143,6 +153,10 @@ no_cb[3] = dot(p_no_cb>, a3>)
 no_so[1] = dot(p_no_so>, n1>)
 no_so[2] = dot(p_no_so>, n2>)
 no_so[3] = dot(p_no_so>, a3>)
+
+a_so[1] = dot(a_so_n>, cl1>)
+a_so[2] = dot(a_so_n>, cl2>)
+a_so[3] = dot(a_so_n>, a3>)
 
 % Angular momentum of system about system mass center
 H_SYS_SO> = dot(I_S_SO>>, w_da_n>)
@@ -336,7 +350,7 @@ input w = 0.0 rad/s, d = 1.5 m
 
 output q1 rad, q2 rad, q3 rad, q4 m, q5 m, q1' rad/s, q2' rad/s, q3' rad/s
 output q4' m/s, q5' m/s, w1 rad/s, w2 rad/s, w3 rad/s, ke kg*m^2/s/s, pe kg*m^2/s/s, te kg*m^2/s/s
-output fax, fay, faz, fbx, fby, fbz
-encode no_cb, no_so, H, p, df, T_da, T_db, T_so, T_ca, T_cb, T_dagl, T_dbgl
+output fx, fay, faz, fby, fbz
+encode no_cb, no_so, a_so, H, p, df, T_da, T_db, T_so, T_ca, T_cb, T_dagl, T_dbgl
 
 code dynamics() slotted_discs_al.c
