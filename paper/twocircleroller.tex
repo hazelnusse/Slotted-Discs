@@ -1,0 +1,67 @@
+\documentclass{rspublic}
+
+% Custom commands for a few commonly used things
+\renewcommand{\b}[1]{\mathbf{#1}}  % For making vector symbols bold
+\newcommand{\ra}{$\Longrightarrow$}  % For making a right pointed arrow
+
+\begin{document}
+
+\title[Two Circle Roller]{Dynamics of The Two Circle Roller}
+
+\author[D.L. Peterson, G. Gede, M. Hubbard]{Dale L. Peterson, Gilbert Gede,
+Mont Hubbard}
+
+\affiliation{Department of Mechanical and Aerospace Engineering\\ University of
+California, 2132 Bainer Hall, One Shields Avenue, Davis, CA 95616, USA}
+
+\label{firstpage}
+\maketitle
+
+\begin{abstract}{rolling, dynamics, indeterminate forces}
+
+The 'two circle roller' or 'slotted discs' is a simple device that exhibits
+interesting rolling behavior and presents interesting modeling challenges.  It
+is comprised of two rigid thin discs, whose planes of symmetry make a non-zero
+angle between each other and whose centers are offset in the radial direction
+of each disc.  This deceivingly simple system possesses two holonomic
+constraints and three integrable motion constraints which result in one degree
+of freedom, a rolling motion about the line connecting the contact points of
+each disc.  We analyze the particular case when the discs are of equal radii
+and whose planes are at a right angle by examining the effect of changing the
+ratio of offset distance to disc radii.  Equations of motion are presented,
+along with simulation results, and a stability analysis of the equilibrium
+points.  The dynamic equations are presented in a dimensionless form and a
+bifurcation analysis is presented.
+
+\end{abstract}
+
+\section{Desired plots}
+asymmetric configuration mass center height vs. gamma
+simulation plot(s):  
+\begin{itemize}
+ \item Plot of one period oscillations, scaled by the initial
+\end{itemize}
+
+
+\section{Stability of equilibrium}
+Two equilibrium configurations: symmetric and asymmetric. 
+
+Symmetric configuration:  at low l's eigenvalues are purely imaginary and
+stable (although we can't conclude this from the linear analysis), and as l
+increase to about 1.7 (for r = 0.1), we found that the eigenvalues become a
+real, equal and opposite pair, implying instability.
+
+Desired plot: eigenvalues of each equilibrium as a function of gamma, using a
+normalized value of r=1.0, m=1.0, alpha=pi/2.
+
+Large gamma \ra large separation \\
+Small gamma \ra  small separation \\
+
+Define $\gamma = l / (\sqrt{2}r)$
+
+This guy wrote about it \cite{Stewart1966}
+
+\bibliographystyle{rspublicnat}
+\bibliography{references}
+
+\end{document}
