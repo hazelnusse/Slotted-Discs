@@ -1,6 +1,6 @@
 #include "slotted_discs.h"
 
-inline int eomwrapper(double t, const double x[6], double f[6], void * params)
+int eomwrapper(double t, const double x[6], double f[6], void * params)
 {
   SlottedDiscs * p = (SlottedDiscs *) params;
   // Assign the states of the SlottedDiscs object
@@ -16,6 +16,21 @@ inline int eomwrapper(double t, const double x[6], double f[6], void * params)
   f[5] = p->wp;
   // Return the status
   return GSL_SUCCESS;
+}
+
+double hc(double q3, void * params)
+{
+  SlottedDiscs * p = (SlottedDiscs *) params;
+  p->q3 = q3;
+  return p->hc();
+} // hc
+
+double hc_deriv(double q3, void * params)
+{
+  SlottedDiscs * p = (SlottedDiscs *) params;
+  p->q3 = q3;
+  return p->hc_deriv();
+
 }
 
 ostream &operator<<(ostream &file, const SlottedDiscs * discs)
@@ -1163,3 +1178,13 @@ void SlottedDiscs::setParameters(DiscParams * p)
 
   evalConstants();
 } // setParameters()
+
+double SlottedDiscs::hc(void)
+{
+  return rb*pow((1-pow((cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2)),0.5) - ra*cos(q2) - l*cos(q2)*cos(q3);
+} // hc()
+
+double SlottedDiscs::hc_deriv(void)
+{
+  return cos(q2)*(l*sin(q3)-rb*sin(alpha)*cos(q3)*(cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2))/pow((1-pow((cos(alpha)*sin(q2)+sin(alpha)*sin(q3)*cos(q2)),2)),0.5));
+} // hc()

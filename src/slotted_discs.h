@@ -54,7 +54,8 @@ class SlottedDiscs {
     void printParameters() const;
     void printState(void) const;
     void writeRecord_dt(void) const;
-    friend ostream &operator<<(ostream &file, const SlottedDiscs *discs);
+    double hc(void);
+    double hc_deriv(void);
 
     // Mutators
     void setState(const double state[6]);
@@ -62,5 +63,10 @@ class SlottedDiscs {
     void evalConstants(void);
     void eoms(void);
     void computeOutputs(void);
-    friend inline int eomwrapper(double t, const double x[6], double f[6], void * params);
+
+    // Wrapper functions to interface with GSL required calling conventions
+    friend int eomwrapper(double t, const double x[6], double f[6], void * params);
+    friend double hc(double q3, void * params);
+    friend double hc_deriv(double q3, void * params);
+    friend ostream &operator<<(ostream &file, const SlottedDiscs *discs);
 }; 
