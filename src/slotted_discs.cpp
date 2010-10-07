@@ -41,6 +41,11 @@ ostream &operator<<(ostream &file, const SlottedDiscs * discs)
   file.write((char *) &discs->q3, sizeof discs->q3);
   file.write((char *) &discs->q4, sizeof discs->q4);
   file.write((char *) &discs->q5, sizeof discs->q5);
+  file.write((char *) &discs->q1p, sizeof discs->q1p);
+  file.write((char *) &discs->q2p, sizeof discs->q2p);
+  file.write((char *) &discs->q3p, sizeof discs->q3p);
+  file.write((char *) &discs->q4p, sizeof discs->q4p);
+  file.write((char *) &discs->q5p, sizeof discs->q5p);
   file.write((char *) &discs->w, sizeof discs->w);
   file.write((char *) &discs->w1, sizeof discs->w1);
   file.write((char *) &discs->w2, sizeof discs->w2);
@@ -94,6 +99,11 @@ void SlottedDiscs::writeRecord_dt(void) const
         "('q3', np.float64), " <<
         "('x', np.float64), " <<
         "('y', np.float64), " <<
+        "('q1p', np.float64), " <<
+        "('q2p', np.float64), " <<
+        "('q3p', np.float64), " <<
+        "('q4p', np.float64), " <<
+        "('q5p', np.float64), " <<
         "('w', np.float64), " <<
         "('w1', np.float64), " <<
         "('w2', np.float64), " <<
