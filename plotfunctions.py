@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 
-def plotcontactpoints(data):
+def plotcontactpoints(data, folder):
     plt.figure()
     plt.plot(data[:]['x'], data[:]['y'], 'r-', label='Disc A')
     plt.plot(data[:]['cbx'], data[:]['cby'], 'g-', label='Disc B')
@@ -13,9 +13,9 @@ def plotcontactpoints(data):
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()
-    plt.savefig('./plots/contactpoints.pdf')
+    plt.savefig(folder + 'contactpoints.pdf')
 
-def plotangularvelocity(data):
+def plotangularvelocity(data, folder):
     plt.figure()
     plt.plot(data[:]['t'], data[:]['w1'], 'r-', label='w1')
     plt.plot(data[:]['t'], data[:]['w2'], 'g-', label='w2')
@@ -24,9 +24,9 @@ def plotangularvelocity(data):
     plt.ylabel('Angular velocity [rad/s]')
     plt.title('Body fixed angular velocity')
     plt.legend()
-    plt.savefig('./plots/angularvelocity.pdf')
+    plt.savefig(folder + 'angularvelocity.pdf')
 
-def plotforces(data):
+def plotforces(data, folder):
     plt.figure()
     plt.title('Ground reaction forces')
     plt.plot(data[:]['t'], data[:]['fay'], 'r-.', label=r'$R_a \cdot cl_2$')
@@ -36,9 +36,9 @@ def plotforces(data):
     plt.plot(data[:]['t'], data[:]['fx'], 'b-.', label=r'$(R_a + R_b) \cdot cl_1$')
     plt.legend()
     plt.xlabel('t [s]')
-    plt.savefig('./plots/forces.pdf')
+    plt.savefig(folder + 'forces.pdf')
 
-def plotqdots(data):
+def plotqdots(data, folder):
     plt.figure()
     plt.title('Coordinate time derivatives')
     plt.plot(data[:]['t'], data[:]['q1p'], 'r-', label=r'$\dot{q}_1$')
@@ -48,9 +48,9 @@ def plotqdots(data):
     plt.plot(data[:]['t'], data[:]['q5p'], 'k-', label=r'$\dot{q}_5$')
     plt.xlabel('t [s]')
     plt.legend()
-    plt.savefig('./plots/qdots.pdf')
+    plt.savefig(folder + 'qdots.pdf')
 
-def plotaccelerations(data):
+def plotaccelerations(data, folder):
     plt.figure()
     plt.title('CM acceleration')
     plt.plot(data[:]['t'], data[:]['aso1'], label=r'$a_{so} \cdot cl_1$')
@@ -58,9 +58,9 @@ def plotaccelerations(data):
     plt.plot(data[:]['t'], data[:]['aso3'], label=r'$a_{so} \cdot n_3$')
     plt.legend()
     plt.xlabel('t [s]')
-    plt.savefig('./plots/accelerations.pdf')
+    plt.savefig(folder + 'accelerations.pdf')
 
-def plotenergy(data):
+def plotenergy(data, folder):
     plt.figure()
     plt.plot(data[:]['t'], data[:]['ke'], 'r-', label='Kinetic')
     plt.plot(data[:]['t'], data[:]['pe'], 'g-', label='Potential')
@@ -69,18 +69,18 @@ def plotenergy(data):
     plt.ylabel(r'Energy [kg*m/s^2]')
     plt.title('Energy')
     plt.legend()
-    plt.savefig('./plots/energy.pdf')
+    plt.savefig(folder + 'energy.pdf')
 
-def plotindependentspeed(data):
+def plotindependentspeed(data, folder):
     plt.figure()
     plt.plot(data[:]['t'], data[:]['w'], 'r-', label='w')
     plt.xlabel('time [s]')
     plt.ylabel('Angular velocity [rad/s]')
     plt.title('Angular velocity about contact line')
     plt.legend()
-    plt.savefig('./plots/independentspeed.pdf')
+    plt.savefig(folder + 'independentspeed.pdf')
 
-def ploteulerangles(data):
+def ploteulerangles(data, folder):
     plt.figure()
     plt.plot(data[:]['t'], data[:]['q1'], 'r-', label='Yaw')
     plt.plot(data[:]['t'], data[:]['q2'], 'g-', label='Lean')
@@ -89,9 +89,9 @@ def ploteulerangles(data):
     plt.ylabel('Angular displacement [rad]')
     plt.title('Euler 3-1-2 Angles')
     plt.legend()
-    plt.savefig('./plots/euler312angles.pdf')
+    plt.savefig(folder + 'euler312angles.pdf')
 
-def plotheights(data):
+def plotheights(data, folder):
     plt.figure()
     plt.subplot(211)
     plt.title('Height of COM and Disc B contact')
@@ -100,9 +100,9 @@ def plotheights(data):
     plt.plot(data[:]['t'], data[:]['cbz'], 'r-', label='cb height')
     plt.xlabel('t [s]')
     plt.ylabel(r'meters')
-    plt.savefig('./plots/heights.pdf')
+    plt.savefig(folder + 'heights.pdf')
 
-def plotangularmomentum(data):
+def plotangularmomentum(data, folder):
     plt.figure()
     plt.title('System angular momentum about mass center')
     plt.plot(data[:]['t'], data[:]['H1'], 'r-', label=r'$H^{sys/so}\cdot cl_1$')
@@ -111,9 +111,9 @@ def plotangularmomentum(data):
     plt.xlabel('t [s]')
     plt.ylabel(r'kg m^2 / s')
     plt.legend()
-    plt.savefig('./plots/angularmomentum.pdf')
+    plt.savefig(folder + 'angularmomentum.pdf')
 
-def plotlinearmomentum(data):
+def plotlinearmomentum(data, folder):
     plt.figure()
     plt.title('System linear momentum')
     plt.plot(data[:]['t'], data[:]['p1'], 'r-', label=r'$p^{so}\cdot cl_1$')
@@ -122,34 +122,31 @@ def plotlinearmomentum(data):
     plt.xlabel('t [s]')
     plt.ylabel(r'kg m / s')
     plt.legend()
-    plt.savefig('./plots/linearmomentum.pdf')
+    plt.savefig(folder + 'linearmomentum.pdf')
 
-
-def plotfunctions(plot_dict, data):
+def plotfunctions(plot_dict, data, folder):
     if plot_dict['contactpoints']:
-        plotcontactpoints(data)
+        plotcontactpoints(data, folder)
     if plot_dict['angularvelocity']:
-        plotangularvelocity(data)
+        plotangularvelocity(data, folder)
     if plot_dict['forces']:
-        plotforces(data)
+        plotforces(data, folder)
     if plot_dict['qdots']:
-        plotqdots(data)
+        plotqdots(data, folder)
     if plot_dict['accelerations']:
-        plotaccelerations(data)
+        plotaccelerations(data, folder)
     if plot_dict['energy']:
-        plotenergy(data)
+        plotenergy(data, folder)
     if plot_dict['independentspeed']:
-        plotindependentspeed(data)
+        plotindependentspeed(data, folder)
     if plot_dict['eulerangles']:
-        ploteulerangles(data)
+        ploteulerangles(data, folder)
     if plot_dict['eulerangles']:
-        ploteulerangles(data)
+        ploteulerangles(data, folder)
     if plot_dict['heights']:
-        plotheights(data)
+        plotheights(data, folder)
     if plot_dict['angularmomentum']:
-        plotangularmomentum(data)
+        plotangularmomentum(data, folder)
     if plot_dict['linearmomentum']:
-        plotlinearmomentum(data)
-    os.system('tar cjf ./plots/slotted_disc_plots.tar.bz2 ./plots/*.pdf' +
-              ' ./plots/simulation_settings.txt')
+        plotlinearmomentum(data, folder)
 

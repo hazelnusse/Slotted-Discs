@@ -1,0 +1,55 @@
+# @configure_input@
+
+# Package-specific substitution variables
+package = @PACKAGE_NAME@
+version = @PACKAGE_VERSION@
+tarname = @PACKAGE_TARNAME@
+distdir = $(tarname)-$(version)
+
+# Prefix-specific substitution variables
+prefix			=	@prefix@
+exec_prefix		=	@exec_prefix@
+bindir			=	@bindir@
+
+CC = gcc
+CFLAGS = -Wall -g -O3
+CXX = g++
+CXXFLAGS = -Wall -g -O3
+
+Makefile: Makefile.in ../config.status
+	cd .. && ./config.status src/$@
+
+../config.status: ../configure
+	cd .. && ./config.status --recheck
+
+all: sdrender sdsim
+
+check: all
+	./sdsim | grep "Simulation completed.  Data written to ./simulation.dat" 
+	@printf "*** Simulation test passed ***"
+
+install: 
+	install -d $(DESTDIR)$(bindir)
+	install -m 0755 sdsim $(DESTDIR)$(bindir)
+
+uninstall:
+	rm -rf $(DESTDIR)$(bindir)/sdsim
+
+sdrender: render.o slotted_discs.o writepng.o
+	$(CXX) -lm -lgsl -lcblas -latlas -lGLU -lOSMesa -lpng -o $@ $^
+
+sdsim: simulate.o slotted_discs.o
+	$(CXX) -lm -lgsl -lcblas -latlas -o $@ $^
+
+simulate.o: simulate.cpp slotted_discs.h
+
+slotted_discs.o: slotted_discs.cpp slotted_discs.h
+
+render.o: render.cpp writepng.h slotted_discs.h
+
+writepng.o: writepng.c writepng.h
+
+clean: 
+	rm -rf *.o sdsim sdrender
+
+.PHONY: all clean check install uninstall

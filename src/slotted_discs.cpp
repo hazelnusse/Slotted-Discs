@@ -138,40 +138,29 @@ void SlottedDiscs::writeRecord_dt(void) const
 SlottedDiscs::SlottedDiscs()
 {
   // Default parameters
+  DiscParams * p = new DiscParams;
+  double ma, mb;
+  ma = mb = 2.0;
   ra = rb = .1;
   l = sqrt(2.0)*ra;
   g = 9.81;
   alpha = M_PI/2.0;
-  
-  double ma, mb;
-  ma = mb = 2.0;
-  m = ma + mb;
-  double Ia = ma*ra*ra/4.0;
-  double Ja = ma*ra*ra/2.0;
-
-  double Ib = mb*rb*rb/4.0;
-  double Jb = mb*rb*rb/2.0;
-
-  k = l*mb/(ma+mb);
-  Ixx = Ia + Ib*pow(cos(alpha),2) + Jb*pow(sin(alpha),2) + mb*pow(l,2)*(ma*mb/
-  pow((ma+mb),2)+pow((1-mb/(ma+mb)),2));
-  Iyy = Ja + Jb + pow(sin(alpha),2)*(Ib-Jb) + mb*pow(l,2)*(ma*mb/pow((ma+mb),
-  2)+pow((1-mb/(ma+mb)),2));
-  Izz = Ia + Ib + mb*pow(l,2)*pow((1-mb/(ma+mb)),2) + mb*pow(l,2)*(-1+mb/(ma+
-  mb))*(1-mb/(ma+mb));
-  Ixy = sin(alpha)*cos(alpha)*(Ib-Jb);
+  setParams(p, ma, mb, ra, rb, l, alpha, g);
+  setParameters(p);
+  delete p;
 
   // Set state
   q1 = 0.0;
-  q2 = M_PI / 4.0;
+  q2 = M_PI/4.0;
   q3 = M_PI/2.0;
   q4 = q5 = 0.0;
-  w = -1.4;
+  w = 1.0;
 
   // Set integration settings
   t = 0.0;
   tf = 10.0;
   h = 0.001;
+  fps = 1000;
   T = gsl_odeiv_step_rk8pd;
   s = gsl_odeiv_step_alloc(T, 6);
   c = gsl_odeiv_control_y_new(1e-6, 1e-9);

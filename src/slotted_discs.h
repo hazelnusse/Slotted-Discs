@@ -47,6 +47,7 @@ class SlottedDiscs {
     gsl_odeiv_step * s;
     gsl_odeiv_control * c; gsl_odeiv_evolve * e;
     gsl_odeiv_system sys;
+    int fps;
 
     // Member functions
     SlottedDiscs();
