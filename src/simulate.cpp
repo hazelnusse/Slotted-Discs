@@ -41,6 +41,7 @@ int main(int argc, char ** argv)
   // Write initial condition record data
   OutputFile << discs;
 
+  bool tensile[2] = {false, false};
   for (int j = 1; j < fps*discs->tf + 1; ++j) {
     tj = ((double) j) / ((double) fps);
     while (discs->t < tj)
@@ -48,6 +49,16 @@ int main(int argc, char ** argv)
                              &(discs->sys), &(discs->t), tj,
                              &(discs->h), state);
     discs->computeOutputs();
+    if (discs->tensile[0] != tensile[0]) { // Disc A tensile force switched sign
+      cerr << "Disc A tensile force sign change:  t = "
+           << discs->t << ", faz = " << discs->faz << endl;
+      tensile[0] = discs->tensile[0];
+    }
+    if (discs->tensile[1] != tensile[1]) { // Disc B tensile force switched sign
+      cerr << "Disc B tensile force sign change:  t = "
+           << discs->t << ", fbz = " << discs->fbz << endl;
+      tensile[1] = discs->tensile[1];
+    }
     OutputFile << discs;
   } // for j
 

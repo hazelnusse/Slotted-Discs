@@ -29,9 +29,9 @@ def plotangularvelocity(data):
 def plotforces(data):
     plt.figure()
     plt.title('Ground reaction forces')
-    plt.plot(data[:]['t'], data[:]['fay'], 'r--', label=r'$R_a \cdot cl_2$')
+    plt.plot(data[:]['t'], data[:]['fay'], 'r-.', label=r'$R_a \cdot cl_2$')
     plt.plot(data[:]['t'], data[:]['faz'], 'r-', label=r'$R_a \cdot n_3$')
-    plt.plot(data[:]['t'], data[:]['fby'], 'g--', label=r'$R_b \cdot cl_2$')
+    plt.plot(data[:]['t'], data[:]['fby'], 'g-.', label=r'$R_b \cdot cl_2$')
     plt.plot(data[:]['t'], data[:]['fbz'], 'g-', label=r'$R_b \cdot n_3$')
     plt.plot(data[:]['t'], data[:]['fx'], 'b-.', label=r'$(R_a + R_b) \cdot cl_1$')
     plt.legend()

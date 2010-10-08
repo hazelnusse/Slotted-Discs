@@ -10,9 +10,9 @@ os.system('rm -rf ./plots/simulation_settings.txt')
 os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
-w = 3.0
-tf = 5.0
-displayplots = True
+w = 8.400091
+tf = 1.0
+displayplots = True     # Change to False if you only want the pdf files
 
 # Allow displaying of plots to be supressed from commandline
 if len(sys.argv) == 2:
@@ -31,12 +31,11 @@ from record import record_dt
 # ./simulation.data for details on all the data fields.
 data = np.fromfile('./simulation.dat', dtype=record_dt)
 
-# Dictionary to control which plots are made.  All plots are automatically
-# saved to the ./plots subdirectory in .pdf format, and they are also displayed
-# on screen by default.
-plot_dict = {'contactpoints': True,
-             'angularvelocity': True,
-             'forces': False,
+# Dictionary to control which plots are generated.  Plots are saved to the
+# ./plots subdirectory in pdf format
+plot_dict = {'contactpoints': False,
+             'angularvelocity': False,
+             'forces': True,
              'qdots' : False,
              'accelerations': False,
              'energy': False,
@@ -49,6 +48,6 @@ plot_dict = {'contactpoints': True,
 # Do the actual plotting
 pf.plotfunctions(plot_dict, data)
 
-# Display plots onscreen if that is what is desired
+# Display plots onscreen if desired
 if displayplots:
     plt.show()

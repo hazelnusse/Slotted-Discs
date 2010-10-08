@@ -57,11 +57,11 @@ ostream &operator<<(ostream &file, const SlottedDiscs * discs)
   file.write((char *) &(discs->te), sizeof discs->te);
   file.write((char *) &(discs->H), sizeof discs->H);
   file.write((char *) &(discs->p), sizeof discs->p);
+  file.write((char *) &(discs->fx), sizeof discs->fx);
   file.write((char *) &(discs->fay), sizeof discs->fay);
   file.write((char *) &(discs->faz), sizeof discs->faz);
   file.write((char *) &(discs->fby), sizeof discs->fby);
   file.write((char *) &(discs->fbz), sizeof discs->fbz);
-  file.write((char *) &(discs->fx), sizeof discs->fx);
   file.write((char *) &(discs->a_so), sizeof discs->a_so);
   return file;
 } // operator <<
@@ -1160,6 +1160,15 @@ void SlottedDiscs::computeOutputs(void)
   T_dbgl[14] = ctz*z[3] + z[7]*(ctx-q4) + z[17]*z[177] - d - z[8]*(cty-q5) - 
   z[179]*(l+z[18]);
   T_dbgl[15] = 1;
+
+  if (faz > 0.0)
+    tensile[0] = true;
+  else
+    tensile[0] = false;
+  if (fbz > 0.0)
+    tensile[1] = true;
+  else
+    tensile[1] = false;
 } // computeOutputs()
 
 void SlottedDiscs::setState(const double state[6])

@@ -39,6 +39,9 @@ class SlottedDiscs {
     // Camera variables
     double theta, phi, d, ctx, cty, ctz;
 
+    // Flag array to detect when forces are tensile
+    bool tensile[2];
+
     // Numerical integrator variables
     const gsl_odeiv_step_type * T;
     gsl_odeiv_step * s;
