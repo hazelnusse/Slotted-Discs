@@ -4,7 +4,7 @@
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_odeiv.h>
 
-#define Z_MAX 326
+#define Z_MAX 283
 
 using namespace std;
 

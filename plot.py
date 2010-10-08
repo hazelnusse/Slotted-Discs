@@ -11,7 +11,7 @@ os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
 w = 8.400090
-tf = 1.0
+tf = 2.0
 l = 0.1
 displayplots = True     # Change to False if you only want the pdf files
 output_folder = "./plots/"
@@ -41,17 +41,17 @@ data = np.fromfile('./plots/simulation.dat', dtype=record_dt)
 
 # Dictionary to control which plots are generated.  Plots are saved to the
 # ./plots subdirectory in pdf format
-plot_dict = {'contactpoints': True,
-             'angularvelocity': True,
+plot_dict = {'contactpoints': False,
+             'angularvelocity': False,
              'forces': True,
-             'qdots' : True,
-             'accelerations': True,
-             'energy': True,
-             'independentspeed': True,
-             'eulerangles': True,
-             'heights': True,
-             'angularmomentum': True,
-             'linearmomentum': True}
+             'qdots' : False,
+             'accelerations': False,
+             'energy': False,
+             'independentspeed': False,
+             'eulerangles': False,
+             'heights': False,
+             'angularmomentum': False,
+             'linearmomentum': False}
 
 # Do the actual plotting
 pf.plotfunctions(plot_dict, data, output_folder)

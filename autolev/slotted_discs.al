@@ -92,30 +92,26 @@ T_star> = - dot(alf_da_n>, I_S_SO>>) - cross(w_da_n>, dot(I_S_SO>>, w_da_n>))
 % Single motion equation
 solve(dot(f_so>, cross(cl1>, p_ca_so>)) + dot(cl1>, T_star>) + dot(cross(cl1>, p_ca_so>), R_star>), w')
 
-% Constraint force determination
+% Disc contact forces of constraint
+% only solves for components perpendicular to contact line
+constants u2, u3, u5, u6
+zee_not := [u1, u2, u3, u5, u6, fay, faz, fby, fbz]
+vcan> = u2*cl2> + u3*a3>
+vcbn> = u5*cl2> + u6*a3>
 f_ca> = fay*cl2> + faz*a3>
 f_cb> = fby*cl2> + fbz*a3>
+wsn> = w*cl1> + (u3-u6)/mag(p_ca_cb>)*cl2> + (u5-u2)/mag(p_ca_cb>)*a3>
+vsn> = vcan> + cross(wsn>, p_ca_so>)
 
-% Moments about Disc A contact
-t_ca> = cross(p_ca_cb>, f_cb>) + cross(p_ca_so>, f_so>)
-H_ca> = dot(I_S_CA>>, w_da_n>)
-H_ca_dot> = dt(H_ca>, da) + cross(w_da_n>, H_ca>)
-H_ca_dot> := H_ca_dot>
-NE1> = t_ca> - H_ca_dot>
-con_eqns1 = [dot(NE1>, cl2>), dot(NE1>, a3>)]
-solve(con_eqns1, [fby, fbz])
-
-% Moments about Disc B contact
-t_cb> = cross(p_cb_ca>, f_ca>) + cross(p_cb_so>, f_so>)
-H_cb> = dot(I_S_CB>>, w_da_n>)
-H_cb_dot> = dt(H_cb>, da) + cross(w_da_n>, H_cb>)
-H_cb_dot> := H_cb_dot>
-NE2> = t_cb> - H_cb_dot>
-con_eqns2 = [dot(NE2>, cl2>), dot(NE2>, a3>)]
-solve(con_eqns2, [fay, faz])
+vca = [coef(vcan>, u2), coef(vcan>, u3), coef(vcan>, u5), coef(vcan>, u6)] 
+vcb = [coef(vcbn>, u2), coef(vcbn>, u3), coef(vcbn>, u5), coef(vcbn>, u6)] 
+wsn = [coef(wsn>, u2), coef(wsn>, u3), coef(wsn>, u5), coef(wsn>, u6)] 
+vsn = [coef(vsn>, u2), coef(vsn>, u3), coef(vsn>, u5), coef(vsn>, u6)] 
+coneqs = dot(vca, f_ca>) + dot(vcb, f_cb>) + dot(vsn, f_so>) + dot(vsn, R_star>) + dot(wsn, T_star>)
+solve(coneqs, [fay, faz, fby, fbz])
 
 % Forces along contact line are indeterminate, best we can do is solve for
-% resultant along contact line
+% resultant along contact line using F = ma
 fx = m*dot(a_so_n>, cl1>)
 
 % Forward dynamics problem -- given the forces calculated above, we should be
