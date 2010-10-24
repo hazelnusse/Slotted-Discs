@@ -16,7 +16,7 @@ int eomwrapper(double t, const double x[6], double f[6], void * params)
   f[5] = p->wp;
   // Return the status
   return GSL_SUCCESS;
-}
+} // eomwrapper()
 
 double hc(double q3, void * params)
 {
@@ -124,7 +124,7 @@ void SlottedDiscs::writeRecord_dt(void) const
         "('p3', np.float64), " <<
         "('fx', np.float64), " <<
         "('fay', np.float64), " <<
-        "('faz', np.float64)," <<
+        "('faz', np.float64), " <<
         "('fby', np.float64), " <<
         "('fbz', np.float64), " <<
         "('aso1', np.float64), " <<
@@ -393,18 +393,6 @@ void SlottedDiscs::eoms(void)
 } // eoms()
 
 void SlottedDiscs::computeOutputs(void)
-{
-  if (faz > 0.0)
-    tensile[0] = true;
-  else
-    tensile[0] = false;
-  if (fbz > 0.0)
-    tensile[1] = true;
-  else
-    tensile[1] = false;
-} // computeOutputs()
-
-void SlottedDiscs::setState(const double state[6])
 {
   fx = m*(z[40]*(z[59]*wp+z[114])+z[41]*(z[61]*wp+z[116])-z[42]*(z[60]*wp+
   z[115]));
@@ -1072,6 +1060,18 @@ void SlottedDiscs::setState(const double state[6])
   T_dbgl[14] = ctz*z[3] + z[7]*(ctx-q4) + z[17]*z[134] - d - z[8]*(cty-q5) - 
   z[136]*(l+z[18]);
   T_dbgl[15] = 1;
+  if (faz > 0.0)
+    tensile[0] = true;
+  else
+    tensile[0] = false;
+  if (fbz > 0.0)
+    tensile[1] = true;
+  else
+    tensile[1] = false;
+} // computeOutputs()
+
+void SlottedDiscs::setState(const double state[6])
+{
   q1 = state[0];
   q2 = state[1];
   q3 = state[2];
