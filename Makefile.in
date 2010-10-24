@@ -11,6 +11,10 @@ prefix			=	@prefix@
 exec_prefix		=	@exec_prefix@
 bindir			=	@bindir@
 
+# VPATH-specific substitution variables
+srcdir			= @srcdir@
+VPATH			= @srcdir@
+
 all clean check install uninstall render simulate:
 	cd src && $(MAKE) $@
 
