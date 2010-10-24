@@ -141,12 +141,9 @@ def plotfunctions(plot_dict, data, folder):
         plotindependentspeed(data, folder)
     if plot_dict['eulerangles']:
         ploteulerangles(data, folder)
-    if plot_dict['eulerangles']:
-        ploteulerangles(data, folder)
     if plot_dict['heights']:
         plotheights(data, folder)
     if plot_dict['angularmomentum']:
         plotangularmomentum(data, folder)
     if plot_dict['linearmomentum']:
         plotlinearmomentum(data, folder)
-

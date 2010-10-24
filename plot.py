@@ -41,17 +41,17 @@ data = np.fromfile('./plots/simulation.dat', dtype=record_dt)
 
 # Dictionary to control which plots are generated.  Plots are saved to the
 # ./plots subdirectory in pdf format
-plot_dict = {'contactpoints': False,
-             'angularvelocity': False,
+plot_dict = {'contactpoints': True,
+             'angularvelocity': True,
              'forces': True,
-             'qdots' : False,
-             'accelerations': False,
-             'energy': False,
-             'independentspeed': False,
-             'eulerangles': False,
-             'heights': False,
-             'angularmomentum': False,
-             'linearmomentum': False}
+             'qdots' : True,
+             'accelerations': True,
+             'energy': True,
+             'independentspeed': True,
+             'eulerangles': True,
+             'heights': True,
+             'angularmomentum': True,
+             'linearmomentum': True}
 
 # Do the actual plotting
 pf.plotfunctions(plot_dict, data, output_folder)
