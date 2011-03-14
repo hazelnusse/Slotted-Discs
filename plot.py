@@ -10,14 +10,16 @@ os.system('rm -rf ./plots/simulation_settings.txt')
 os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
-w = 8.400090
-tf = 2.0
-l = 0.1
+w = 2.0
+tf = 5.0
+ra = rb = 1.0
+l = ra                 # disc center offset
+
 displayplots = True     # Change to False if you only want the pdf files
 output_folder = "./plots/"
 simdata = output_folder + "simulation.dat"
 sim_settings = output_folder + "simulation_settings.txt"
-ts = time.localtime()
+t = time.localtime()
 t = str(ts[0]) + str(ts[1]) + str(ts[2]) + str(ts[3]) + str(ts[4]) + str(ts[5])
 tarball_name = "sim" + t + ".tar.bz2"
 
@@ -26,8 +28,13 @@ if len(sys.argv) == 2:
     if sys.argv[1] == '--silent':
         displayplots = False
 
-os.system(('./src/sdsim --omega={0} --time={1} --offset={2} ' +
-           '--output={3} > {4}').format(w, tf, l, simdata, sim_settings))
+os.system(('./src/sdsim --omega={0} ' +
+                       '--time={1} ' +
+                       '--offset={2} ' +
+                       '--ra={3} ' +
+                       '--rb={4} ' +
+                       '--output={5} > {6}').format(w, tf, l, ra, rb,
+                                                    simdata, sim_settings))
 
 # record is a python file written by the SlottedDiscs C++ class.  Each record
 # is comprised of output quantities written sequential to file as double precision
@@ -59,8 +66,8 @@ pf.plotfunctions(plot_dict, data, output_folder)
 # Create a tarball of the plots and simulation settings
 os.system('mv ./record.py ' + output_folder)
 os.system('rm ./record.pyc')
-os.system('tar cjf ' + output_folder + tarball_name + " " + 
-           output_folder + '*.pdf ' + sim_settings + " " + 
+os.system('tar cjf ' + output_folder + tarball_name + " " +
+           output_folder + '*.pdf ' + sim_settings + " " +
            output_folder + "record.py")
 
 # Cleanup things that were stored in the zip file
