@@ -188,9 +188,8 @@ $$
 AB=R\sqrt{3}.
 $$
 
-This feature is usually used in construction of Oloid.
-
-The expression $(4)$ for the vector $\vec r_2$ should make a sense therefore we should have
+This feature is used in construction of Oloid.
+The expression $(4)$ for the vector $\vec r_2$ then should give:
 $$
 0\leq 1+2\cos\theta \quad \forall \ \theta,\psi \in [-\frac{2\pi}{3},\frac{2\pi}{3}]
 $$
