@@ -16,7 +16,15 @@
 $^{\ast\ast}$Department of Mechanical and Aerospace Engineering, University of California, Davis, USA.}
 
 
-\abstract{Analysis and simulation are performed for the commercially available toy known as the Oloid. While rolling on the fixed horizontal plane the Oloid moves very swinging but smooth: it never falls over its edges. The trajectories of points of contact of the Oloid with the supporting plane are found analytically.}
+\abstract{
+We present a kinematic and dynamic analysis and simulation of the toy known as
+the Oloid.  The Oloid is defined by the convex hull of two equal radius disks
+at right angles to one another, with the distance between the centers equal to
+their radius.  The no-slip constraints of the Oloid are integrable, hence the
+system is essentially holonomic.  In this work we present analytic expressions
+for the trajectories of the ground contact points, basic dynamic analysis and
+observations on the unique behavior of this system.
+}
 
 
 \begin{document}
@@ -129,7 +137,6 @@ This means that we can find the parametric equations of the curve if we know its
 
 Thus we derived all the necessary facts for the investigation of the Oloid motion.
 
-\section*{Motion of the Oloid}
 \subsection*{Coordinate frames and parametrization}
 
 We consider now the motion of Oloid. Let two circles of the same radius $R$ in perpendicular planes be given such that each circle contains the center of the other. Then the convex hull of these circles is called Oloid. Let $k_A$ and $k_B$ be two circles of the same radius $R$ in perpendicular planes $\Pi_1$ and $\Pi_2$ such that $k_A$ passes through the center $M_B$ of $k_B$ and $k_B$ passes through the center $M_A$ of $k_A$ (Fig.~2).
@@ -185,14 +192,14 @@ This feature is usually used in construction of Oloid.
 
 The expression $(4)$ for the vector $\vec r_2$ should make a sense therefore we should have
 $$
-0\leq 1+2\cos\theta.
+0\leq 1+2\cos\theta \quad \forall \ \theta,\psi \in [-\frac{2\pi}{3},\frac{2\pi}{3}]
 $$
 
 Therefore we have the following restrictions for the introduced parametrizations:
 $$
--\frac{2\pi}{3}\leq\theta\leq\frac{2\pi}{3},\quad -\frac{2\pi}{3}\leq\psi\leq\frac{2\pi}{3}.
 $$
 
+\section*{Results}
 \subsection*{Trajectories of the points of contact}
 
 Let us derive now equation of the fixed plane in the $Gx_1x_2x_3$ coordinate system. We will write this equation in the form:
@@ -314,7 +321,7 @@ $$
 \caption{Trajectories of points $A$ (bottom curve) and $B$ (upper curve) on the supporting plane.}
 \end{figure}
 
-These equations give the parametric representation for the trajectory of the point $B$ on the fixed plane. Figure 4 shows the both trajectories on the fixed plane $Oxy$.
+These equations give the parametric representation for the trajectory of the point $B$ on the fixed plane. Figure 4 shows both trajectories on the fixed plane $Oxy$.
 
 \section{Conclusions}
 We investigate here the motion of the Oloid toy on the fixed horizontal plane. Parametric equations for the trajectories of points of contact of the Oloid with the plane are derived.
