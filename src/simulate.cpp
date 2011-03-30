@@ -12,7 +12,7 @@ int main(int argc, char ** argv)
 {
   SlottedDiscs * discs = new SlottedDiscs();
   string outputFilename;
-  
+
   processOptions(outputFilename, discs, argc, argv);
   ofstream OutputFile(outputFilename.c_str(), ios::binary);
   cout << "Slotted Discs C++ Simulation" << endl;

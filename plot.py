@@ -4,12 +4,26 @@ import matplotlib.pyplot as plt
 import os, sys, time
 import plotfunctions as pf
 
+# Dictionary to control which plots are generated.  Plots are saved to the
+# ./plots subdirectory in pdf format
+plot_dict = {'contactpoints': True,
+             'angularvelocity': False,
+             'forces': True,
+             'qdots' : False,
+             'accelerations': False,
+             'energy': False,
+             'independentspeed': False,
+             'eulerangles': False,
+             'heights': True,
+             'angularmomentum': False,
+             'linearmomentum': False}
 
 os.system('rm -rf simulation.dat')
 os.system('rm -rf ./plots/simulation_settings.txt')
 os.system('rm -rf ./plots/*.pdf')
 os.system('rm -rf ./plots/slotted_disc_plots.tar.bz2')
 
+yaw = 105.7*np.pi/180.
 w = 2.0
 tf = 5.0
 ra = rb = 1.0
@@ -19,7 +33,7 @@ displayplots = True     # Change to False if you only want the pdf files
 output_folder = "./plots/"
 simdata = output_folder + "simulation.dat"
 sim_settings = output_folder + "simulation_settings.txt"
-t = time.localtime()
+ts = time.localtime()
 t = str(ts[0]) + str(ts[1]) + str(ts[2]) + str(ts[3]) + str(ts[4]) + str(ts[5])
 tarball_name = "sim" + t + ".tar.bz2"
 
@@ -33,7 +47,9 @@ os.system(('./src/sdsim --omega={0} ' +
                        '--offset={2} ' +
                        '--ra={3} ' +
                        '--rb={4} ' +
-                       '--output={5} > {6}').format(w, tf, l, ra, rb,
+                       '--heading={5} ' +
+                       '--x=0.0 --y=0.0 ' + 
+                       '--output={6} > {7}').format(w, tf, l, ra, rb, yaw,
                                                     simdata, sim_settings))
 
 # record is a python file written by the SlottedDiscs C++ class.  Each record
@@ -46,19 +62,6 @@ from record import record_dt
 # ./simulation.data for details on all the data fields.
 data = np.fromfile('./plots/simulation.dat', dtype=record_dt)
 
-# Dictionary to control which plots are generated.  Plots are saved to the
-# ./plots subdirectory in pdf format
-plot_dict = {'contactpoints': True,
-             'angularvelocity': True,
-             'forces': True,
-             'qdots' : True,
-             'accelerations': True,
-             'energy': True,
-             'independentspeed': True,
-             'eulerangles': True,
-             'heights': True,
-             'angularmomentum': True,
-             'linearmomentum': True}
 
 # Do the actual plotting
 pf.plotfunctions(plot_dict, data, output_folder)

@@ -9,7 +9,6 @@ tails.png
 frames/
 movies/
 plots/
-*.pdf
 *.bz2
 simulation_settings.txt
 *.pyc
