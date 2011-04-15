@@ -20,15 +20,14 @@ $^{\ast\ast}$Department of Mechanical and Aerospace Engineering, University of C
 
 
 \abstract{
-We present a kinematic and dynamic analysis and simulation of the toy known as
-the Oloid.  The Oloid is defined by the convex hull of two equal radius disks
-at right angles to one another, with the distance between the centers equal to
-their radius.  The no-slip constraints of the Oloid are integrable, hence the
-system is essentially holonomic.  In this work we present analytic expressions
-for the trajectories of the ground contact points, basic dynamic analysis and
-observations on the unique behavior of this system.
+We present kinematic analysis and dynamic simulation of the toy known as the
+Oloid.  The Oloid is defined by the convex hull of two equal radius disks whose
+symmetry planes are at right angles, with the distance between their centers
+equal to their radius.  The no-slip constraints of the Oloid are integrable,
+hence the system is essentially holonomic.  In this paper we present analytic
+expressions for the trajectories of the ground contact points, basic dynamic
+analysis and observations on the unique behavior of this system.
 }
-
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,12 +47,13 @@ connecting axis.
 \caption{The coordinate system $Gx_1x_2x_3$.}
 \end{figure}
 
+Let us consider the motion of the Oloid on a fixed horizontal plane. The Oloid
+is a developable surface comprises of two circles of radius $R$ whose planes of
+symmetry are at a right angles with each other with the distance between the
+centers of the circles equals to their radius $R$. The resulting convex hull is
+called Oloid.
 
-
-
-Let us consider the motion of the Oloid on a fixed horizontal plane. The Oloid is a developable surface comprises of two circles of radius $R$ whose planes of symmetry make a right angle between each other with the distance between the centers of the circles equals to their radius $R$. The resulting convex hull is called Oloid.
-
-The Oloid have been constructed for the first time by Paul Schatz $[2$,$3]$. The geometric properties of the surface of the Oloid have been discussed in the paper $[1]$. The Oloid is also used for technical applications. Special mixing-machines are constructed using such bodies $[5]$. In our paper we make the complete kinematical analysis of motion of this object on the horizontal plane.
+The Oloid was constructed for the first time by Paul Schatz $[2$,$3]$. The geometric properties of the surface of the Oloid have been discussed in $[1]$. The Oloid is also used for technical applications. Special mixing-machines are constructed using such bodies $[5]$. In our paper we make the complete kinematical analysis of motion of this object on the horizontal plane.
 
 Further we briefly describe basic facts from Kinematics and Differential Geometry which we will use in our investigation.
 
@@ -74,46 +74,81 @@ curve. The tangent $\vec\tau$, the normal $\vec\nu$ and the binormal $\vec\beta$
 
 \subsection*{The Poisson formulas}
 
-Let $\vec e_1$, $\vec e_2$, $\vec e_3$ is any moving coordinate system and let $\vec\omega$ be the angular velocity of this system. Then for the derivatives of $\vec e_1$, $\vec e_2$ and $\vec e_3$ the following Poisson formulas are valid:
+Let $\vec e_1$, $\vec e_2$, $\vec e_3$ any moving coordinate system with
+angular velocity $\vec\omega$. Then the derivatives of $\vec e_1$, $\vec e_2$
+and $\vec e_3$ satisfy the Poisson formulas:
 $$
 \frac{d\vec e_i}{dt}=\left[\vec\omega\times\vec e_i\right], \quad i=1,2,3.
 $$
 
-According to the Poisson formulas we can rewrite the Frenet - Serret formulas as follows:
+Thus we can rewrite the Frenet - Serret formulas as:
 $$
 \frac{d\vec\tau}{dt}=\left[\vec\Omega\times\vec\tau\right],\quad
 \frac{d\vec\nu}{dt}=\left[\vec\Omega\times\vec\nu\right],\quad
 \frac{d\vec\beta}{dt}=\left[\vec\Omega\times\vec\beta\right],
 $$
-where $\vec\Omega=k\dot{s}\vec\beta+\ae\dot{s}\vec\tau$ is the angular velocity of the Frenet - Serret frame known also as the Darboux vector. In particular, for the plane curve we have $\ae=0$ and therefore
+where $\vec\Omega=k\dot{s}\vec\beta+\ae\dot{s}\vec\tau$ is the angular velocity
+of the Frenet - Serret frame known also as the Darboux vector. In particular,
+for a plane curve we have $\ae=0$ and therefore
 $$
 \vec\Omega=k\dot{s}\vec\beta.\eqno(1)
 $$
 
 \subsection*{Two contact points}
 
-Let us consider the rolling of the body consisting of two similar symmetric laminas in perpendicular planes connected to each other along the common axis of symmetry.This body rolls without slipping on the fixed horizontal plane. Let $G$ be the center of mass of the moving body and $K_1$, $K_2$ be two contact points of the body with the plane.
+Consider a rolling body consisting of two similar symmetric laminas in perpendicular planes connected to each other along the common axis of symmetry.This body rolls without slipping on the fixed horizontal plane. Let $G$ be the center of mass of the moving body and $K_1$, $K_2$ be two contact points of the body with the plane.
 
-From the rolling conditions for the two contact points follows that the angular velocity is always parallel to the line between the contact points i.e.
+From the rolling conditions for the two contact points follows that the angular
+velocity is always parallel to the line between the contact points, i.e.
 $$
 \left[\vec\omega\times\overrightarrow{K_1K_2}\right]=0.
 $$
 
-Now we introduce four coordinate systems. The first coordinate system is the fixed coordinate system $Oxyz$ with the origin at any point $O$ of the fixed plane. The $Oz$ - axis is directed upward. The second coordinate system is $Gx_1x_2x_3$ system with $Gx_2$ axis directed along the common axis of symmetry of the two laminas. The $Gx_3$ - axis  is perpendicular to the plane of the first lamina and the $Gx_1$ - axis is perpendicular to the plane of the second lamina. The third coordinate system is the Frenet - Serret frame $K_1\vec\tau\vec\nu\vec\beta$ for the bound of the first lamina: the $\vec\tau$ - vector is the tangent vector to the bound of the lamina, the $\vec\nu$ - vector is in the plane of the lamina and the $\vec\beta$ - vector coincides in the unit vector of $Gx_3$ axis (i.e. $\vec\beta$ is perpendicular to the plane of lamina). The fourth coordinate system is also the Frenet - Serret frame. The origin of this system is also in $K_1$, the first unit vector $\vec\tau_1$ of this system coincides with the vector $\vec\tau$ of the system $K_1\vec\tau\vec\nu\vec\beta$. The second vector $\vec\nu_1$ of this system is in the plane of motion and the third vector $\vec\beta_1$ is perpendicular to the plane of motion (i.e. the vector $\vec\beta_1$ coincides with the vector $\vec e_z$ of the system $Oxyz$). Therefore we can conclude that the coordinate system $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ is the Frenet - Serret frame for the curve which is obtained by the motion of the contact point $K_1$ (i.e. it is a "trace" of the point of contact on the plane).
+Now we introduce four coordinate systems. The first coordinate system is fixed
+system $Oxyz$ with origin at any point $O$ of the fixed plane and with the
+$Oz$ - axis directed upward. The second is $Gx_1x_2x_3$
+with the $Gx_2$ axis along the common axis of symmetry of the two
+laminas and $Gx_3$ - axis perpendicular to the plane of the first lamina
+and the $Gx_1$ - axis is perpendicular to the plane of the second lamina. The
+third coordinate system is the Frenet - Serret frame
+$K_1\vec\tau\vec\nu\vec\beta$ for the bound of the first lamina: $\vec\tau$
+- vector is the tangent vector to the bound of the lamina, $\vec\nu$ -
+vector is in the plane of the lamina and the $\vec\beta$ - vector coincides in
+the unit vector of $Gx_3$ axis (i.e. $\vec\beta$ is perpendicular to the plane
+of lamina). The fourth coordinate system is also a Frenet - Serret frame. The
+origin of this system is also in $K_1$, the first unit vector $\vec\tau_1$ of
+this system coincides with the vector $\vec\tau$ of the system
+$K_1\vec\tau\vec\nu\vec\beta$. The second vector $\vec\nu_1$ of this system is
+in the plane of motion and the third vector $\vec\beta_1$ is perpendicular to
+the plane of motion (i.e. the vector $\vec\beta_1$ coincides with the vector
+$\vec e_z$ of the system $Oxyz$). Therefore we can conclude that the coordinate
+system $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ is the Frenet - Serret frame for the
+curve which is obtained by the motion of the contact point $K_1$ (i.e. it is a
+"trace" of the point of contact on the plane).
 
-Let us try to find the angular velocity of the moving body. We will use the law of composition of angular velocities. Let us consider the systems $Oxyz$, $K_1\vec\tau\vec\nu\vec\beta$ and $Gx_1x_2x_3$. The absolute angular velocity of $Gx_1x_2x_3$ system with respect to $Oxuz$ system is the sum of angular velocity of $Gx_1x_2x_3$ with respect to $K_1\vec\tau\vec\nu\vec\beta$ and the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ with respect to $Oxyz$. But the angular velocity of $Gx_1x_2x_3$ system with respect to $K_1\vec\tau\vec\nu\vec\beta$ system can be found very easy: it is equal to $-k\dot{s}\vec\beta$. So we need calculate now the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ system with respect to $Oxyz$ system.
+Let us find the angular velocity of the moving body. We will use the law
+of composition of angular velocities. Let us consider the systems $Oxyz$,
+$K_1\vec\tau\vec\nu\vec\beta$ and $Gx_1x_2x_3$. The absolute angular velocity
+of $Gx_1x_2x_3$ system with respect to $Oxuz$ system is the sum of angular
+velocity of $Gx_1x_2x_3$ with respect to $K_1\vec\tau\vec\nu\vec\beta$ and the
+angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ with respect to $Oxyz$. But
+the angular velocity of $Gx_1x_2x_3$ system with respect to
+$K_1\vec\tau\vec\nu\vec\beta$ system can be found easily: it is equal to
+$-k\dot{s}\vec\beta$. So we need calculate now the angular velocity of
+$K_1\vec\tau\vec\nu\vec\beta$ system with respect to $Oxyz$ system.
 
 Let us denote by $\varphi$ the angle between two unit vectors $\vec\beta=\vec
 e_3$ and $\vec\beta_1=\vec e_z$. Then we can represent the angular velocity of
-$K_1\vec\tau\vec\nu\vec\beta$ system with respect to $Oxyz$ system is the sum
-of the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ system with respect to
-$K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system and the angular velocity of
+$K_1\vec\tau\vec\nu\vec\beta$ system with respect to $Oxyz$ system as the sum
+of the angular velocity of the $K_1\vec\tau\vec\nu\vec\beta$ system with respect to
+$K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system and the angular velocity of the
 $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system with respect to $Oxyz$ system. But
 the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ with respect to
 $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ is $\dot{\varphi}\vec\tau$ and
 the angular velocity of $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ with respect
 to $Oxyz$ system is $K\dot{s}\vec\beta_1$. Therefore finally we obtain:
-$$ \vec\omega=\dot{\varphi}\vec\tau-k\dot{s}\vec\beta+K\dot{s}\vec\beta_1.
+$$
+\vec\omega=\dot{\varphi}\vec\tau-k\dot{s}\vec\beta+K\dot{s}\vec\beta_1.
 $$
 
 Since $\vec\beta=-\vec\nu_1\sin\varphi+\vec\beta_1\cos\varphi$ we have
@@ -353,6 +388,7 @@ The speeds and times were normalized to the initial values and shown for one cyc
 \section*{Conclusions}
 We investigate here the motion of the Oloid toy on the fixed horizontal plane. Parametric equations for the trajectories of points of contact of the Oloid with the plane are derived.
 
+
 \begin{thebibliography}{99}
 \bibitem{Development} Dirnb\"ok H., Stachel H. (1997) The Development of the Oloid.  {\em J. Geometry Graphics}
 {\bf 1}:105-118.
@@ -361,4 +397,5 @@ We investigate here the motion of the Oloid toy on the fixed horizontal plane. P
 \bibitem{Spong} Spong M., Hutchinson S. and Vidyasagar M. (2005) Robot Modeling and Control. Wiley and Sons.
 \bibitem{Bio} Bioengineering AG (Sagenrainsrt. 7, 8636 Wald, Switzerland).
 \end{thebibliography}
+
 \end{document}
