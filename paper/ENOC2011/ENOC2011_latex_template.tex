@@ -103,9 +103,17 @@ Now we introduce four coordinate systems. The first coordinate system is the fix
 
 Let us try to find the angular velocity of the moving body. We will use the law of composition of angular velocities. Let us consider the systems $Oxyz$, $K_1\vec\tau\vec\nu\vec\beta$ and $Gx_1x_2x_3$. The absolute angular velocity of $Gx_1x_2x_3$ system with respect to $Oxuz$ system is the sum of angular velocity of $Gx_1x_2x_3$ with respect to $K_1\vec\tau\vec\nu\vec\beta$ and the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ with respect to $Oxyz$. But the angular velocity of $Gx_1x_2x_3$ system with respect to $K_1\vec\tau\vec\nu\vec\beta$ system can be found very easy: it is equal to $-k\dot{s}\vec\beta$. So we need calculate now the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ system with respect to $Oxyz$ system.
 
-Let us denote by $\varphi$ the angle between two unit vectors $\vec\beta=\vec e_3$ and $\vec\beta_1=\vec e_z$. Then we can represent the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ system with respect to $Oxyz$ system is the sum of the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ system with respect to $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system and the angular velocity of $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system with respect to $Oxyz$ system. But the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ with respect to $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system is equal $\dot{\varphi}\vec\tau$ and the angular velocity of $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system with respect to $Oxyz$ system is equal $K\dot{s}\vec\beta_1$. Therefore finally we obtain:
-$$
-\vec\omega=\dot{\varphi}\vec\tau-k\dot{s}\vec\beta+K\dot{s}\vec\beta_1.
+Let us denote by $\varphi$ the angle between two unit vectors $\vec\beta=\vec
+e_3$ and $\vec\beta_1=\vec e_z$. Then we can represent the angular velocity of
+$K_1\vec\tau\vec\nu\vec\beta$ system with respect to $Oxyz$ system is the sum
+of the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ system with respect to
+$K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system and the angular velocity of
+$K_1\vec\tau_1\vec\nu_1\vec\beta_1$ system with respect to $Oxyz$ system. But
+the angular velocity of $K_1\vec\tau\vec\nu\vec\beta$ with respect to
+$K_1\vec\tau_1\vec\nu_1\vec\beta_1$ is $\dot{\varphi}\vec\tau$ and
+the angular velocity of $K_1\vec\tau_1\vec\nu_1\vec\beta_1$ with respect
+to $Oxyz$ system is $K\dot{s}\vec\beta_1$. Therefore finally we obtain:
+$$ \vec\omega=\dot{\varphi}\vec\tau-k\dot{s}\vec\beta+K\dot{s}\vec\beta_1.
 $$
 
 Since $\vec\beta=-\vec\nu_1\sin\varphi+\vec\beta_1\cos\varphi$ we have
@@ -113,7 +121,7 @@ $$
 \vec\omega=\dot{\varphi}\vec\tau_1+k\dot{s}\sin\varphi\vec\nu_1-k\dot{s}\cos\varphi\vec\beta_1+K\dot{s}\vec\beta_1.
 $$
 
-But from the rolling conditions we already obtained that the vector $\vec\omega$ is proportional to $\overrightarrow{K_1K_2}$ vector i.e. $\vec\omega$ is always in the plane of motion
+But from the rolling conditions already obtained, the vector $\vec\omega$ is parallel to $\overrightarrow{K_1K_2}$ vector, i.e. $\vec\omega$ is always in the plane of motion
 $$
 \vec\omega=\omega_1\vec\tau_1+\omega_2\vec\nu_1.
 $$
@@ -122,19 +130,19 @@ This means that
 $$
 K=k\cos\varphi\quad\mbox{or}\quad \rho\cos\varphi=r,\eqno(2)
 $$
-where $\rho$ and $r$ are radii of curvature of the curve on the fixed plane (trajectory of the point $K_1$) and the bound of the first lamina.
+where $\rho$ and $r$ are radii of curvature of the curve on the fixed plane (trajectory of point $K_1$) and the bound of the first lamina.
 
 \subsection*{Natural equations of a curve}
 
-Let us consider the planar curve, defined by its parametric equations:
+Let us Consider the planar curve, defined by its parametric equations:
 $$
 {\vec r}={\vec r}\left(s\right)=x(s){\vec e_x}+y(s){\vec e_y},
 $$
-with the arc-length $s$ as a parameter. We denote by $\alpha (s)$ the angle between the unit tangent vector $\vec\tau$ to the given curve
+with arc-length $s$ as a parameter. We denote by $\alpha (s)$ the angle between the unit tangent vector $\vec\tau$ to the given curve
 $$
 \vec\tau=\frac{d\vec r}{ds}=\frac{dx}{ds}{\vec e_x}+\frac{dy}{ds}{\vec e}_y
 $$
-and the unit vector $\vec e_x$ of the $Ox$ - axis. The initial value of $\alpha (s)$ at $s=0$ can be chosen within the value divisible by $2\pi$, for other points the angle $\alpha (s)$ is defined explicitly.
+and the unit vector $\vec e_x$ of the $Ox$ - axis. The initial value of $\alpha (s)$ at $s=0$ can be chosen to be a value divisible by $2\pi$.  For other points the angle $\alpha (s)$ is defined explicitly.
 
 Since $\vec\tau (s)$ is the unit vector its projections on the $Ox$ and $Oy$ axes are $\cos\alpha$ and $\sin\alpha$ respectively. From the other side
 $$
@@ -154,9 +162,7 @@ $$
 d\alpha/ds=k(s).\eqno(4)
 $$
 
-This means that we can find the parametric equations of the curve if we know its curvature $k(s)$.
-
-Thus we derived all the necessary facts for the investigation of the Oloid motion.
+This means that we can find the parametric equations of the curve if we know its curvature $k(s)$. Thus we derived all the necessary facts for the investigation of the Oloid motion.
 
 \subsection*{Coordinate frames and parametrization}
 
@@ -174,7 +180,7 @@ $$
 \overrightarrow{GB}=\vec r_2=\left(R/2+R\cos\psi\right)\vec e_2+R\sin\psi\vec e_3.
 $$
 
-When Oloid rolling on a fixed plane the three vectors $\vec r_1-\vec r_2$, $\vec r_1'$ and $\vec r_2'$ should be situated in this plane. We can write this condition as follows:
+When the Oloid rolls on a fixed plane the three vectors $\vec r_1-\vec r_2$, $\vec r_1'$ and $\vec r_2'$ should be situated in this plane. We can write this condition as:
 $$
 \left|
 \begin{array}{ccc}
@@ -190,12 +196,12 @@ $$
 \cos\psi+\cos\theta\cos\psi+\cos\theta=0.
 $$
 
-and now can obtain the radius -- vector $\overrightarrow{GB}=\vec r_2$ in the $\theta$ -- parametrization:
+and now can obtain the radius vector $\overrightarrow{GB}=\vec r_2$ in the $\theta$ parametrization:
 $$
 \overrightarrow{GB}=\vec r_2=\left(\frac{R}{2}-\frac{R\cos\theta}{1+\cos\theta}\right)\vec e_2-\frac{R\sqrt{1+2\cos\theta}}{1+\cos\theta}\vec e_3.\eqno(4)
 $$
 
-Note here the interesting fact: the length of the vector $\overrightarrow{AB}$
+Note here the interesting fact that the length of the vector $\overrightarrow{AB}$
 $$
 \overrightarrow{AB}=\overrightarrow{GB}-\overrightarrow{GA}=-R\sin\theta\vec e_1+\left(R+\frac{R\cos^2\theta}{1+\cos\theta}\right)\vec e_2-\frac{R\sqrt{1+2\cos\theta}}{1+\cos\theta}\vec e_3
 $$
@@ -204,7 +210,7 @@ $$
 AB=R\sqrt{3}.
 $$
 
-This feature is used in construction of Oloid.
+This feature is used in construction of the Oloid.
 The expression $(4)$ for the vector $\vec r_2$ then should give:
 $$
 0\leq 1+2\cos\theta \quad \forall \ \theta,\psi \in [-\frac{2\pi}{3},\frac{2\pi}{3}]
