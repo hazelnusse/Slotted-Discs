@@ -257,12 +257,12 @@ $$
 \section*{Results}
 \subsection*{Trajectories of the points of contact}
 
-Let us derive now equation of the fixed plane in the $Gx_1x_2x_3$ coordinate system. We will write this equation in the form:
+We derive now the equation of the fixed plane in the $Gx_1x_2x_3$ coordinate system, writing it in the form:
 $$
 LX+MY+NZ+P=0.
 $$
 
-Indeed points $A$, $B$ and the tangent vector to the first circle at $A$ are always in this plane therefore the following condition are valid:
+Indeed points $A$, $B$ and the tangent vector to the first circle at $A$ are always in this plane.  Therefore the following condition is valid:
 $$
 \left|
 \begin{array}{ccc}
@@ -273,7 +273,7 @@ R\cos\theta & R\sin\theta & 0
 \right|=0.
 $$
 
-From this condition after some simplifications we have the following expression for the plane of motion
+From this condition, after some simplifications, we have the following expression for the plane of motion
 $$
 -\sin\theta X+\cos\theta Y+\sqrt{1+2\cos\theta}Z+\frac{R}{2}\left(2+\cos\theta\right)=0.
 $$
@@ -293,20 +293,20 @@ $$
 K=\frac{1}{\rho}=\frac{\sqrt{1+2\cos\theta}}{2R\cos\frac{\theta}{2}}.
 $$
 
-Having the expression for $K$ we can find the parametric equations of the trajectory of the point $A$ on the fixed plane.
+Having an expression for $K$, we can find the parametric equations of the trajectory of the point $A$ on the fixed plane.
 
-For this purpose let us introduce the fixed coordinate system $Oxyz$. The origin $O$ of this system coincides with the point of contact of the first circle with the plane at $\theta=0$. The $Ox$ - axis is tangent to the first circle, the $Oz$ - axis is directed upwards. The $Oy$ - axis forms the right triple with the $Ox$ and $Oz$ axes. Then we get:
+For this purpose let us introduce the fixed coordinate system $Oxyz$, whose origin $O$ coincides with the point of contact of the first circle with the plane at $\theta=0$. The $Ox$ - axis is tangent to the first circle, the $Oz$ - axis is directed upwards. The $Oy$ - axis forms a right triple with the $Ox$ and $Oz$ axes. Then we obtain:
 $$
 \frac{d\alpha}{ds}=\frac{d\alpha}{Rd\theta}=K\left(\theta\right),\quad\mbox{i.e.}\quad \frac{d\alpha}{d\theta}=\frac{\sqrt{1+2\cos\theta}}{2\cos\frac{\theta}{2}}.
 $$
 
-Integration of this equation gives us the following expression for $\alpha$:
+Integration of this equation gives the following expression for $\alpha$:
 $$
 \alpha=2\arctan\left(\frac{\sqrt{2}\sin\theta}{\sqrt{\left(1+\cos\theta\right)\left(1+2\cos\theta\right)}}\right)+
 \arcsin\left(\frac{\left(\cos\theta-1\right)}{\sqrt{3}\sin\theta}\right).
 $$
 
-Using the trigonometric transformations and properties of the inverse trigonometric functions arctan and arcsin we reduce the expression for $\alpha$ to the form:
+Using trigonometric transformations and properties of the inverse trigonometric functions arctan and arcsin we reduce the expression for $\alpha$ to the form:
 $$
 \alpha=2\arcsin\left(\frac{2}{\sqrt{3}}\sin\frac{\theta}{2}\right)-\arcsin\left(\frac{\sin\frac{\theta}{2}}
 {\sqrt{3}\cos\frac{\theta}{2}}\right).
@@ -330,9 +330,9 @@ y_A\left(\theta\right)=\frac{8R\sqrt{3}}{9}\sin^2\left(\frac{\theta}{2}\right)-\
 \quad -\frac{2\pi}{3}<\theta<\frac{2\pi}{3}.
 $$
 
-These equations give the parametric representation for the trajectory of the point $A$ on the fixed plane.
+These equations give a parametric representation for the trajectory of the point $A$ on the fixed plane.
 
-We can use the similar ideas in finding  the trajectory of point $B$, 
+We can use a similar method in finding the trajectory of point $B$, 
 represented in the scalar form as:
 $$
 x_B\left(\theta\right)=x_A\left(\theta\right)+R\sqrt{3}\cos\left(\alpha+\gamma\right),\quad
@@ -353,7 +353,7 @@ $$
 \sin\gamma=\frac{\sqrt{1+2\cos\theta}}{\sqrt{3}\cos\frac{\theta}{2}}.
 $$
 
-Further it is easy to find
+Further, it is easy to find
 $$
 \sin\left(\alpha+\gamma\right)=\frac{7}{9}+\frac{4\cos^2\theta}{9\left(1+\cos\theta\right)},\quad
 \cos\left(\alpha+\gamma\right)=-\frac{4\left(2+\cos\theta\right)\sin\frac{\theta}{2}}{9\left(1+\cos\theta\right)}
@@ -376,19 +376,19 @@ $$
 \caption{Trajectories of points $A$ (bottom curve) and $B$ (upper curve) on the supporting plane.}
 \end{figure}
 
-These equations give the parametric representation for the trajectory of the point $B$ on the fixed plane. Figure 4 shows both trajectories on the fixed plane $Oxy$.
+These equations give a parametric representation for the trajectory of the point $B$ on the fixed plane. Figure 4 shows both trajectories on the fixed plane $Oxy$.
 
-\subsection{Non-Obvious Dynamic Behaviors}
-An unusual behavior was observed when simulation the dynamic motion of the oloid; we found that in simulation the waveform of the generalized speed changed qualitatively with different initial speeds.  The \ref{waveform} below demonstrates this. 
+\subsection*{Non-Obvious Dynamic Behaviors}
+Unusual behavior was observed when simulating the dynamic motion of the oloid.  We found that the waveform of the generalized speed changed qualitatively with different initial speeds.  The \ref{waveform} below demonstrates this. 
 \begin{figure}[h!]
   \label{waveform}
   \centering\includegraphics[height=10cm]{Waveform}
 \caption{Qualitative Analysis of Generalized Speed Waveform (R = .1, G=9.8)}
 \end{figure}
-The speeds and times were normalized to the initial values and one cycle of the output.  It can be seen at the lower initial speeds that the speed starts by falling and at the higher initial speeds it starts by rising.  We believe this behavior to be unusual for such a simple, deterministic, one degree of freedom system.  Also visible is the change in shape of waveform throughout the cycle from two large speed minimums to four smaller speed minimums.   
+The speeds and times were normalized to the initial values and shown for one cycle of the output.  It can be seen at the lower initial speeds that the speed starts by decreasing and at a higher initial speed it starts by rising.  We believe this behavior to be unusual for such a simple, deterministic, one degree of freedom system where energy is conserved.  Also visible is the change in shape of waveform throughout the cycle from two large speed minima to four smaller speed minima.  
 
 
-\section{Conclusions}
+\section*{Conclusions}
 We investigate here the motion of the Oloid toy on the fixed horizontal plane. Parametric equations for the trajectories of points of contact of the Oloid with the plane are derived.
 
 
